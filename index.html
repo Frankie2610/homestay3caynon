@@ -138,6 +138,7 @@
         }
 
         .room-tab {
+            font-size: 16px;
             padding: 10px 16px;
             border: none;
             border-radius: 999px;
@@ -205,7 +206,14 @@
             }
 
             .calendar {
-                min-width: 900px
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .calendar-wrap {
+                width: 100%;
+                overflow-x: auto;
             }
 
             .header-inner .main-menu a {
@@ -501,9 +509,6 @@
         }
 
         @media(max-width:768px) {
-            .availability-grid {
-                min-width: 1000px
-            }
 
             .footer-grid {
                 grid-template-columns: 1fr
@@ -644,10 +649,11 @@
                 border-radius: 18px;
             }
 
+            /* 
             .availability-grid {
-                grid-template-columns: 55px repeat(14, 65px);
+                grid-template-columns: 70px repeat(14, 80px);
                 min-width: 965px;
-            }
+            } */
 
             .hour-cell {
                 width: 55px;
@@ -665,7 +671,7 @@
 
             /* Hide page scrollbar */
             body {
-                overflow-x: hidden;
+                overflow-x: auto;
             }
 
             .footer {
@@ -732,6 +738,12 @@
             height: 140px !important;
         }
 
+        .sticky-corner {
+            width: 60px;
+            min-width: 60px;
+            background: #fff;
+        }
+
         @media(max-width:768px) {
 
             .hero {
@@ -771,15 +783,11 @@
                 height: 120px !important;
             }
 
-            /* mobile calendar compact */
-            .availability-grid {
-                grid-template-columns: 45px repeat(14, 52px) !important;
-                min-width: 773px !important;
-            }
-
             .hour-cell {
-                font-size: 10px !important;
-                height: 30px !important;
+                position: sticky;
+                left: 0;
+                z-index: 50;
+                background: #fff;
             }
 
             .slot-cell {
@@ -793,246 +801,44 @@
 
             .calendar-wrap {
                 padding: 6px !important;
+                overflow-x: auto;
+            }
+
+            .availability-grid {
+                display: grid !important;
+
+                /* 1 cột giờ + 7 cột ngày */
+                grid-template-columns: 42px repeat(7, 1fr) !important;
+
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            .room-tabs {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .room-tab {
+                font-size: 14px !important;
+            }
+
+            .hour-cell {
+                font-size: 9px;
+            }
+
+            .day-header {
+                font-size: 9px;
+                padding: 4px 1px;
+            }
+
+            .slot-cell {
+                height: 28px;
             }
         }
 
         .header-inner .main-menu a {
             font-size: 22px !important
-        }
-
-        /* =========================
-   MOBILE 380px → 520px
-========================= */
-        @media screen and (min-width:380px) and (max-width:520px) {
-
-            .container {
-                padding: 14px;
-            }
-
-            /* HEADER */
-            .site-header {
-                position: sticky;
-            }
-
-            .header-inner {
-                height: auto !important;
-                padding: 14px 0 !important;
-                gap: 10px !important;
-                flex-direction: column;
-            }
-
-            .logo-wrap {
-                margin-right: 0 !important;
-            }
-
-            .logo-wrap img {
-                height: 52px;
-            }
-
-            .main-menu {
-                width: 100%;
-                gap: 10px;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .header-inner .main-menu a {
-                font-size: 13px !important;
-                background: #f7f1ed;
-                padding: 8px 12px;
-                border-radius: 999px;
-            }
-
-            /* HERO */
-            .hero {
-                height: 52vh !important;
-                min-height: 360px !important;
-                padding: 20px;
-            }
-
-            .hero-logo {
-                width: 95px !important;
-            }
-
-            .hero h1 {
-                font-size: 28px !important;
-                line-height: 1.25;
-            }
-
-            .hero p {
-                font-size: 14px !important;
-                margin-top: 10px;
-            }
-
-            .hero-btn {
-                padding: 12px 22px;
-                font-size: 14px;
-            }
-
-            /* TABS */
-            .tabs {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                gap: 8px;
-                padding-bottom: 8px;
-                scrollbar-width: none;
-            }
-
-            .tabs::-webkit-scrollbar {
-                display: none;
-            }
-
-            .tab {
-                white-space: nowrap;
-                font-size: 13px !important;
-                padding: 11px 16px;
-            }
-
-            /* ROOM CARD */
-            .room-grid {
-                grid-template-columns: 1fr !important;
-                gap: 18px;
-            }
-
-            .room-card {
-                border-radius: 22px;
-            }
-
-            .room-card img {
-                height: 210px !important;
-            }
-
-            .room-content {
-                padding: 18px;
-            }
-
-            .room-content h3 {
-                font-size: 20px;
-            }
-
-            /* ROOM TAB */
-            .room-tabs {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 10px;
-                scrollbar-width: none;
-            }
-
-            .room-tabs::-webkit-scrollbar {
-                display: none;
-            }
-
-            .room-tab {
-                white-space: nowrap;
-                flex-shrink: 0;
-            }
-
-            /* CALENDAR */
-            .calendar-wrap {
-                padding: 12px !important;
-                border-radius: 24px;
-                overflow: hidden;
-            }
-
-            /* bỏ scroll ngang khó chịu */
-            .calendar {
-                min-width: unset !important;
-            }
-
-            /* lịch mobile dạng card */
-
-            /* pagination */
-            .calendar-pagination {
-                display: flex;
-                justify-content: center;
-                gap: 8px;
-                margin-top: 18px;
-            }
-
-            .calendar-pagination button {
-                border: none;
-                background: #f1ebe7;
-                width: 42px;
-                height: 42px;
-                border-radius: 14px;
-                cursor: pointer;
-                font-weight: 700;
-            }
-
-            .calendar-pagination button.active {
-                background: #d89d79;
-                color: white;
-            }
-
-            /* FLOAT BTN */
-            .floating-contact {
-                right: 12px;
-                bottom: 12px;
-            }
-
-            .floating-contact a {
-                width: 52px;
-                height: 52px;
-            }
-
-            .floating-contact a {
-                color: white;
-            }
-
-            .zalo-btn {
-                background: #0068ff !important;
-            }
-
-            .messenger-btn {
-                background: #0084ff !important;
-                color: white !important;
-            }
-
-            .phone-btn {
-                background: #25D366 !important;
-                color: white !important;
-            }
-
-            /* FOOTER */
-            .footer {
-                border-radius: 28px 28px 0 0 !important;
-                margin-top: 50px !important;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr !important;
-                padding: 28px 18px !important;
-                gap: 26px !important;
-                text-align: center;
-            }
-
-            .footer-logo {
-                width: 90px;
-            }
-
-            .footer h3 {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-
-            .footer p {
-                font-size: 14px;
-                line-height: 1.7;
-            }
-
-            .map-wrap iframe {
-                height: 200px !important;
-                border-radius: 22px;
-            }
-
-            .copyright {
-                padding: 18px;
-                font-size: 13px;
-            }
-
-            #homeName {
-                font-size: 28px;
-            }
         }
 
         .calendar-pagination {
@@ -1059,8 +865,7 @@
         @media(max-width:768px) {
 
             .availability-grid {
-                grid-template-columns:
-                    45px repeat(7, 60px) !important;
+                grid-template-columns: 70px repeat(14, 80px);
                 min-width: 465px !important;
             }
 
@@ -1918,6 +1723,310 @@
             }
 
         }
+
+
+        @media (max-width:768px) {
+
+            .availability-grid {
+                display: grid;
+                grid-template-columns: 70px repeat(14, 80px);
+                width: max-content;
+                min-width: max-content !important;
+            }
+
+            .hour-cell {
+                width: 60px !important;
+                min-width: 60px !important;
+                font-size: 11px;
+                white-space: nowrap;
+            }
+        }
+
+
+        @media screen and (min-width:380px) and (max-width:520px) {
+            .sticky-corner {
+                width: 60px;
+                min-width: 60px;
+                background: #fff;
+            }
+
+            .calendar {
+                width: 100%;
+                min-width: 0 !important;
+            }
+
+            .container {
+                padding: 14px;
+            }
+
+            /* HEADER */
+            .site-header {
+                position: sticky;
+            }
+
+            .header-inner {
+                height: auto !important;
+                padding: 14px 0 !important;
+                gap: 10px !important;
+                flex-direction: column;
+            }
+
+            .logo-wrap {
+                margin-right: 0 !important;
+            }
+
+            .logo-wrap img {
+                height: 52px;
+            }
+
+            .main-menu {
+                width: 100%;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header-inner .main-menu a {
+                font-size: 13px !important;
+                background: #f7f1ed;
+                padding: 8px 12px;
+                border-radius: 999px;
+            }
+
+            /* HERO */
+            .hero {
+                height: 52vh !important;
+                min-height: 360px !important;
+                padding: 20px;
+            }
+
+            .hero-logo {
+                width: 95px !important;
+            }
+
+            .hero h1 {
+                font-size: 28px !important;
+                line-height: 1.25;
+            }
+
+            .hero p {
+                font-size: 14px !important;
+                margin-top: 10px;
+            }
+
+            .hero-btn {
+                padding: 12px 22px;
+                font-size: 14px;
+            }
+
+            /* TABS */
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                gap: 8px;
+                padding-bottom: 8px;
+                scrollbar-width: none;
+            }
+
+            .tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab {
+                white-space: nowrap;
+                font-size: 13px !important;
+                padding: 11px 16px;
+            }
+
+            /* ROOM CARD */
+            .room-grid {
+                grid-template-columns: 1fr !important;
+                gap: 18px;
+            }
+
+            .room-card {
+                border-radius: 22px;
+            }
+
+            .room-card img {
+                height: 210px !important;
+            }
+
+            .room-content {
+                padding: 18px;
+            }
+
+            .room-content h3 {
+                font-size: 20px;
+            }
+
+            /* ROOM TAB */
+
+            .room-tabs {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 8px;
+            }
+
+            .room-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .room-tab {
+                flex: 0 0 auto;
+            }
+
+            .room-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .room-tab {
+                font-size: 13px;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            /* CALENDAR */
+            .calendar-wrap {
+                padding: 12px !important;
+                border-radius: 24px;
+                overflow-x: auto;
+            }
+
+            /* bỏ scroll ngang khó chịu */
+            .calendar {
+                min-width: unset !important;
+            }
+
+            /* lịch mobile dạng card */
+
+            /* pagination */
+            .calendar-pagination {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 18px;
+            }
+
+            .calendar-pagination button {
+                border: none;
+                background: #f1ebe7;
+                width: 42px;
+                height: 42px;
+                border-radius: 14px;
+                cursor: pointer;
+                font-weight: 700;
+            }
+
+            .calendar-pagination button.active {
+                background: #d89d79;
+                color: white;
+            }
+
+            /* FLOAT BTN */
+            .floating-contact {
+                right: 12px;
+                bottom: 12px;
+            }
+
+            .floating-contact a {
+                width: 52px;
+                height: 52px;
+            }
+
+            .floating-contact a {
+                color: white;
+            }
+
+            .zalo-btn {
+                background: #0068ff !important;
+            }
+
+            .messenger-btn {
+                background: #0084ff !important;
+                color: white !important;
+            }
+
+            .phone-btn {
+                background: #25D366 !important;
+                color: white !important;
+            }
+
+            /* FOOTER */
+            .footer {
+                border-radius: 28px 28px 0 0 !important;
+                margin-top: 50px !important;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                padding: 28px 18px !important;
+                gap: 26px !important;
+                text-align: center;
+            }
+
+            .footer-logo {
+                width: 90px;
+            }
+
+            .footer h3 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .footer p {
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            .map-wrap iframe {
+                height: 200px !important;
+                border-radius: 22px;
+            }
+
+            .copyright {
+                padding: 18px;
+                font-size: 13px;
+            }
+
+            #homeName {
+                font-size: 28px;
+            }
+
+            .availability-grid {
+                display: grid;
+                grid-template-columns: 50px repeat(7, 48px) !important;
+                min-width: 100% !important;
+            }
+
+            .hour-cell {
+                position: sticky;
+                left: 0;
+                z-index: 50;
+                background: #fff;
+                width: 50px;
+            }
+
+            .calendar-wrap {
+                overflow-x: auto !important;
+                overflow-y: visible;
+            }
+
+            .hour-cell {
+                font-size: 9px;
+            }
+
+            .day-header {
+                font-size: 9px;
+                padding: 2px;
+            }
+
+            .sticky-corner {
+                width: 60px;
+                min-width: 0px;
+                background: #fff;
+            }
+        }
     </style>
 </head>
 
@@ -2159,17 +2268,6 @@
 
         const homesRef = ref(db, "homes");
 
-        get(homesRef).then((snapshot) => {
-
-            if (snapshot.exists()) {
-                console.log(snapshot.val());
-            } else {
-                console.log("Không có dữ liệu homes");
-            }
-
-        });
-
-
         let currentPage = 0;
         const daysPerPage = 7;
         let rooms = [];
@@ -2304,14 +2402,6 @@
 
                         const bookingRoomId =
                             roomMap[b.room] || b.room;
-                        console.log(
-                            "booking.room:",
-                            b.room,
-                            "=>",
-                            bookingRoomId,
-                            "currentRoom:",
-                            currentRoom
-                        );
                         if (bookingRoomId !== currentRoom)
                             return false;
 
@@ -2452,9 +2542,6 @@ ${booking ? '●' : ''}
         window.switchRoom = (roomId) => {
 
             currentRoom = roomId;
-
-            console.log("Current Room:", currentRoom);
-
             renderTabs();
             renderCalendar();
         }
@@ -2478,8 +2565,6 @@ ${booking ? '●' : ''}
                 Object.keys(homes).forEach((id, index) => {
                     roomMap[`HOME${index + 1}`] = id;
                 });
-
-                console.log("ROOM MAP:", roomMap);
             }
 
             const snap = await get(ref(db, "bookings"));
@@ -2509,8 +2594,6 @@ ${booking ? '●' : ''}
                 renderTabs();
                 renderCalendar();
             }
-            console.log("BOOKINGS RAW:", bookings);
-            console.log("HOMES:", homes);
         }
 
         load();
