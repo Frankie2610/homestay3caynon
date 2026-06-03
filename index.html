@@ -1734,14 +1734,147 @@
                 min-width: max-content !important;
             }
 
+            .availability-grid {
+                display: grid;
+                grid-template-columns: 60px repeat(7, minmax(65px, 1fr)) !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            .sticky-corner,
             .hour-cell {
                 width: 60px !important;
                 min-width: 60px !important;
+            }
+
+            .hour-cell,
+            .slot-cell {
+                height: 44px !important;
+                min-height: 44px !important;
+            }
+
+            .hour-cell {
                 font-size: 11px;
-                white-space: nowrap;
+            }
+
+            .day-header {
+                font-size: 11px;
+                padding: 8px 4px;
             }
         }
 
+        /* Floating Social */
+        .floating-social {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .floating-social a {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.95);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .12),
+                0 2px 8px rgba(0, 0, 0, .08);
+
+            transition: all .25s ease;
+        }
+
+        .floating-social a:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow:
+                0 12px 36px rgba(0, 0, 0, .16),
+                0 4px 12px rgba(0, 0, 0, .10);
+        }
+
+        /* Icon chung */
+        .floating-social img,
+        .floating-social i {
+            width: 28px;
+            height: 28px;
+            font-size: 28px;
+        }
+
+        /* Zalo */
+        .zalo-btn {
+            background: linear-gradient(135deg, #0068ff, #3d8cff) !important;
+        }
+
+        .zalo-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Messenger */
+        .messenger-btn {
+            background: linear-gradient(135deg, #0084ff, #6f7cff) !important;
+            color: white;
+        }
+
+        /* Điện thoại */
+        .phone-btn {
+            background: linear-gradient(135deg, #00b74a, #37d67a) !important;
+            color: white;
+        }
+
+        /* Booking */
+        .booking-btn {
+            background: linear-gradient(135deg, #ff6b35, #ff9558) !important;
+            color: white;
+        }
+
+        .phone-btn {
+            animation: phonePulse 2s infinite;
+        }
+
+        @keyframes phonePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 183, 74, .5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(0, 183, 74, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 183, 74, 0);
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .floating-social {
+                right: 12px;
+                bottom: 75px;
+                gap: 8px;
+            }
+
+            .floating-social a {
+                width: 44px;
+                height: 44px;
+                border-radius: 14px;
+            }
+
+            .floating-social img,
+            .floating-social i {
+                width: 22px;
+                height: 22px;
+                font-size: 22px;
+            }
+        }
 
         @media screen and (min-width:380px) and (max-width:520px) {
             .sticky-corner {
@@ -1930,11 +2063,8 @@
             }
 
             .floating-contact a {
-                width: 52px;
-                height: 52px;
-            }
-
-            .floating-contact a {
+                width: 40px;
+                height: 40px;
                 color: white;
             }
 
@@ -2026,6 +2156,43 @@
                 min-width: 0px;
                 background: #fff;
             }
+
+            .hour-cell,
+            .slot-cell {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 44px !important;
+                min-height: 44px !important;
+                box-sizing: border-box;
+            }
+
+            .availability-grid {
+                display: grid;
+                grid-template-columns: 50px repeat(7, minmax(42px, 1fr)) !important;
+                width: 100% !important;
+            }
+
+            .sticky-corner,
+            .hour-cell {
+                width: 50px !important;
+                min-width: 50px !important;
+            }
+
+            .calendar-pagination {
+                gap: 4px;
+                margin-top: 12px;
+            }
+
+            .calendar-pagination button,
+            .calendar-pagination .page-number {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                padding: 0;
+                font-size: 11px;
+                border-radius: 50%;
+            }
         }
     </style>
 </head>
@@ -2044,8 +2211,8 @@
             </div>
 
             <nav class="main-menu">
-                <a href="#homes">Homes</a>
-                <a href="#availability">Lịch trống</a>
+                <a href="#" id="menuHomes">Homes</a>
+                <a href="#" id="menuCalendar">Lịch trống</a>
                 <a href="#about">Giới thiệu</a>
                 <a href="#contact">Liên hệ</a>
             </nav>
@@ -2064,9 +2231,9 @@
                 Không gian nghỉ dưỡng ấm cúng giữa lòng Sài Gòn.
             </p> -->
 
-            <a href="#homes" class="hero-btn">
+            <!-- <a href="#homes" class="hero-btn">
                 Khám phá các Home
-            </a>
+            </a> -->
 
         </div>
 
@@ -2079,8 +2246,13 @@
     <div class="container">
 
         <div class="tabs">
-            <button class="tab active" onclick="showPage('homes',this)">🏡 Các Home</button>
-            <button class="tab" onclick="showPage('calendarPage',this)">📅 Lịch phòng</button>
+            <button id="homesTab" class="tab active" onclick="showPage('homes',this)">
+                🏡 Các homes
+            </button>
+
+            <button id="calendarTab" class="tab" onclick="showPage('calendarPage',this)">
+                📅 Lịch phòng
+            </button>
             <button class="tab" onclick="showPage('gallery',this)">📷 Thư viện</button>
         </div>
 
@@ -2354,13 +2526,18 @@
         <div class="legend-item">
             <span class="legend booked"></span>Đã đặt
         </div>
-    </div>
+    </div>`
 
-    <div class="availability-grid">`;
+            const dayCount = endDay - startDay;
 
-            if (!isMobile) {
-                html += `<div class="sticky-corner"></div>`;
-            }
+            html += `
+<div class="availability-grid"
+     style="grid-template-columns:70px repeat(${dayCount},1fr)">
+`;
+
+
+            html += `<div class="sticky-corner"></div>`;
+
 
             for (let day = startDay; day < endDay; day++) {
 
@@ -2595,7 +2772,17 @@ ${booking ? '●' : ''}
                 renderCalendar();
             }
         }
+        document.getElementById('menuHomes')
+            ?.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('homesTab')?.click();
+            });
 
+        document.getElementById('menuCalendar')
+            ?.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('calendarTab')?.click();
+            });
         load();
     </script>
 
