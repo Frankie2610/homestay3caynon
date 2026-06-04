@@ -2227,116 +2227,133 @@
         }
 
 
-        /* BLOG */
+        /* =========================
+   GALLERY + REVIEW
+========================= */
 
-        .blog-grid {
+        .blog-grid,
+        .review-grid {
 
             display: grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(320px, 1fr));
+                repeat(3, minmax(0, 1fr));
 
             gap: 24px;
+
+            margin-top: 24px;
         }
 
-        .blog-card {
+        /* =========================
+   CARD
+========================= */
+
+        .blog-card,
+        .review-card {
 
             background: #fff;
 
-            border-radius: 24px;
+            border-radius: 20px;
 
             overflow: hidden;
 
-            border: 1px solid #eee;
+            cursor: pointer;
+
+            transition: all .25s ease;
 
             box-shadow:
-                0 8px 30px rgba(0, 0, 0, .05);
-
-            transition: .25s;
+                0 2px 10px rgba(0, 0, 0, .04);
         }
 
-        .blog-card:hover {
+        .blog-card:hover,
+        .review-card:hover {
 
             transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, .08);
         }
 
-        .blog-card img {
+        /* =========================
+   IMAGE
+========================= */
+
+        .blog-card img,
+        .review-image {
 
             width: 100%;
 
-            height: 240px;
+            aspect-ratio: 4 / 3;
 
             object-fit: cover;
 
             display: block;
+
+            transition: transform .35s ease;
         }
 
-        .blog-body {
+        .blog-card:hover img,
+        .review-card:hover .review-image {
 
-            padding: 22px;
+            transform: scale(1.03);
+        }
+
+        /* =========================
+   BLOG CONTENT
+========================= */
+
+        .blog-content {
+
+            padding: 18px;
         }
 
         .blog-title {
 
-            font-size: 20px;
+            font-size: 18px;
 
             font-weight: 700;
 
             color: #222;
 
             margin-bottom: 10px;
+
+            line-height: 1.4;
         }
 
-        .blog-content {
+        .blog-text {
 
-            color: #666;
+            font-size: 14px;
 
             line-height: 1.7;
+
+            color: #666;
         }
 
+        /* =========================
+   REVIEW
+========================= */
 
-        /* REVIEW */
+        .review-content {
 
-        .review-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(320px, 1fr));
-
-            gap: 24px;
-        }
-
-        .review-card {
-
-            background: #fff;
-
-            border-radius: 24px;
-
-            overflow: hidden;
-
-            border: 1px solid #eee;
-
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, .05);
-
-            padding: 22px;
+            padding: 18px;
         }
 
         .review-top {
 
             display: flex;
 
-            gap: 14px;
+            align-items: center;
 
-            margin-bottom: 16px;
+            gap: 12px;
+
+            margin-bottom: 12px;
         }
 
         .review-avatar {
 
-            width: 64px;
+            width: 56px;
 
-            height: 64px;
+            height: 56px;
 
             border-radius: 50%;
 
@@ -2347,78 +2364,217 @@
 
         .review-name {
 
+            font-size: 15px;
+
             font-weight: 700;
 
             color: #222;
-
-            margin-bottom: 4px;
         }
 
         .review-phone {
 
-            color: #888;
-
             font-size: 13px;
+
+            color: #999;
+
+            margin-top: 2px;
         }
 
-        .review-stars {
+        .review-rating {
 
-            margin-top: 6px;
-
-            color: #f5a623;
+            color: #ffb400;
 
             font-size: 15px;
+
+            margin-top: 4px;
         }
 
-        .review-title {
+        .review-text {
 
-            font-weight: 700;
-
-            margin-bottom: 8px;
-
-            color: #222;
-        }
-
-        .review-content {
-
-            color: #666;
+            color: #555;
 
             line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+   SECTION HEADER
+========================= */
+
+        .section-header {
+
+            text-align: center;
+
+            margin-bottom: 32px;
+        }
+
+        .section-header h2 {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #222;
+
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+
+            font-size: 15px;
+
+            color: #777;
+        }
+
+        /* =========================
+   IMAGE MODAL
+========================= */
+
+        .image-modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, .92);
+
+            backdrop-filter: blur(8px);
+
+            display: none;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 99999;
+        }
+
+        .image-modal img {
+
+            max-width: 95%;
+
+            max-height: 92vh;
+
+            border-radius: 20px;
+
+            animation: zoomIn .25s ease;
+        }
+
+        .image-close {
+
+            position: absolute;
+
+            top: 20px;
+
+            right: 24px;
+
+            color: white;
+
+            font-size: 42px;
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+        @keyframes zoomIn {
+
+            from {
+
+                opacity: 0;
+
+                transform: scale(.92);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: scale(1);
+            }
+        }
+
+        /* =========================
+   TABLET
+   2 ẢNH / HÀNG
+========================= */
+
+        @media (max-width: 968px) {
+
+            .blog-grid,
+            .review-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        /* =========================
+   MOBILE
+   1 ẢNH / HÀNG
+========================= */
+
+        @media (max-width: 768px) {
+
+            .blog-grid,
+            .review-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 16px;
+            }
+
+            .section-header h2 {
+
+                font-size: 24px;
+            }
+
+            .section-header p {
+
+                font-size: 14px;
+            }
+
+            .blog-content,
+            .review-content {
+
+                padding: 14px;
+            }
+
+            .blog-title {
+
+                font-size: 16px;
+            }
+
+            .review-avatar {
+
+                width: 48px;
+                height: 48px;
+            }
+
         }
 
         .review-image {
 
             width: 100%;
 
-            border-radius: 18px;
-
-            margin-top: 16px;
+            aspect-ratio: 4/3;
 
             object-fit: cover;
 
-            max-height: 260px;
+            display: block;
+
+            cursor: pointer;
+
+            transition: .3s;
         }
 
+        .review-image:hover {
 
-        /* MOBILE */
-
-        @media(max-width:768px) {
-
-            .section-header h2 {
-
-                font-size: 26px;
-            }
-
-            .blog-grid,
-            .review-grid {
-
-                grid-template-columns: 1fr;
-            }
-
-            .blog-card img {
-
-                height: 220px;
-            }
+            transform: scale(1.03);
         }
     </style>
 </head>
@@ -2494,31 +2650,33 @@
         </div>
 
         <div id="gallery" class="page">
+
             <h2>Thư viện ảnh</h2>
-            <!-- <p>Sau này lấy từ Firebase Storage.</p> -->
+
+            <section class="gallery-section">
+
+                <div class="section-header">
+                    <h2>📸 Ảnh thư viện</h2>
+                    <p>Những khoảnh khắc và bài viết mới nhất</p>
+                </div>
+
+                <div id="blogGallery" class="blog-grid"></div>
+
+            </section>
+
+            <section class="review-section">
+
+                <div class="section-header">
+                    <h2>💬 Review khách hàng</h2>
+                    <p>Những chia sẻ chân thực từ khách lưu trú</p>
+                </div>
+
+                <div id="reviewGrid" class="review-grid"></div>
+
+            </section>
+
         </div>
-        <section class="gallery-section">
 
-            <div class="section-header">
-                <h2>📸 Ảnh thư viện</h2>
-                <p>Những khoảnh khắc và bài viết mới nhất</p>
-            </div>
-
-            <div id="blogGallery" class="blog-grid"></div>
-
-        </section>
-
-
-        <section class="review-section">
-
-            <div class="section-header">
-                <h2>💬 Review khách hàng</h2>
-                <p>Những chia sẻ chân thực từ khách lưu trú</p>
-            </div>
-
-            <div id="reviewGrid" class="review-grid"></div>
-
-        </section>
     </div>
     <section class="stats-bar">
 
@@ -2668,7 +2826,15 @@
             <i class="fas fa-phone"></i>
 
         </a>
+        <div id="imageModal" class="image-modal">
 
+            <span class="image-close" onclick="closeImageModal()">
+                ✕
+            </span>
+
+            <img id="modalImage">
+
+        </div>
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -3045,157 +3211,261 @@ ${booking ? '●' : ''}
             );
         }
 
-async function loadWebsiteBlogs() {
+        async function loadWebsiteBlogs() {
 
-  const snapshot =
-    await get(
-      ref(db, "websiteBlogs")
-    );
+            const snapshot =
+                await get(
+                    ref(db, "websiteBlogs")
+                );
 
-  const data =
-    snapshot.val() || {};
+            const data =
+                snapshot.val() || {};
 
-  const blogs =
-    Object.values(data)
-      .sort(
-        (a,b)=>
-          b.createdAt - a.createdAt
-      );
+            const blogs =
+                Object.values(data)
+                    .sort(
+                        (a, b) =>
+                            b.createdAt - a.createdAt
+                    );
 
-  const container =
-    document.getElementById(
-      "blogGallery"
-    );
+            const container =
+                document.getElementById(
+                    "blogGallery"
+                );
 
-  container.innerHTML =
-    blogs.map(blog => `
-      <div class="blog-card">
+            if (!container) return;
 
-        ${blog.image
-          ? `<img src="${blog.image}">`
-          : ""
-        }
+            container.innerHTML =
+                blogs.map(blog => `
 
-        <div class="blog-body">
+        <div class="blog-card">
 
-          ${blog.title
-            ? `<div class="blog-title">${blog.title}</div>`
-            : ""
-          }
+            ${blog.image
+                        ?
+                        `
+                <img
+                    src="${blog.image}"
+                    onclick="openImageModal('${blog.image}')"
+                >
+                `
+                        :
+                        ""
+                    }
 
-          ${blog.content
-            ? `<div class="blog-content">${blog.content}</div>`
-            : ""
-          }
+            ${blog.title || blog.content
+                        ?
+                        `
+                <div class="blog-content">
 
-        </div>
+                    ${blog.title
+                            ?
+                            `
+                        <div class="blog-title">
+                            ${blog.title}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
 
-      </div>
-    `).join("");
+                    ${blog.content
+                            ?
+                            `
+                        <div class="blog-text">
+                            ${blog.content}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
 
-}
-
-async function loadWebsiteReviews() {
-
-  const snapshot =
-    await get(
-      ref(db, "websiteReviews")
-    );
-
-  const data =
-    snapshot.val() || {};
-
-  const reviews =
-    Object.values(data)
-      .sort(
-        (a,b)=>
-          b.createdAt - a.createdAt
-      );
-
-  const container =
-    document.getElementById(
-      "reviewGrid"
-    );
-
-  container.innerHTML =
-    reviews.map(review => `
-      <div class="review-card">
-
-        <div class="review-top">
-
-          ${
-            review.image
-            ? `
-            <img
-              src="${review.image}"
-              class="review-avatar"
-            >
-            `
-            : ""
-          }
-
-          <div>
-
-            ${
-              review.guestName
-              ? `
-              <div class="review-name">
-                ${review.guestName}
-              </div>
-              `
-              : ""
-            }
-
-            ${
-              review.guestPhone
-              ? `
-              <div class="review-phone">
-                ${maskPhone(
-                  review.guestPhone
-                )}
-              </div>
-              `
-              : ""
-            }
-
-            <div class="review-stars">
-              ${"⭐".repeat(
-                review.rating || 5
-              )}
-            </div>
-
-          </div>
+                </div>
+                `
+                        :
+                        ""
+                    }
 
         </div>
 
-        ${
-          review.title
-          ? `
-          <div class="review-title">
-            ${review.title}
-          </div>
-          `
-          : ""
-        }
+        `).join("");
 
-        ${
-          review.content
-          ? `
-          <div class="review-content">
-            ${review.content}
-          </div>
-          `
-          : ""
-        }
+        } async function loadWebsiteReviews() {
 
-      </div>
+            const snapshot =
+                await get(
+                    ref(db, "websiteReviews")
+                );
+
+            const data =
+                snapshot.val() || {};
+
+            const reviews =
+                Object.values(data)
+                    .sort(
+                        (a, b) =>
+                            b.createdAt - a.createdAt
+                    );
+
+            const container =
+                document.getElementById(
+                    "reviewGrid"
+                );
+
+            container.innerHTML =
+                reviews.map(review => `
+
+        <div class="review-card">
+
+            ${review.image
+                        ?
+                        `
+                <img
+                    src="${review.image}"
+                    class="review-image"
+                    onclick="openImageModal('${review.image}')"
+                >
+                `
+                        :
+                        ""
+                    }
+
+            ${review.title ||
+                        review.content ||
+                        review.guestName
+                        ?
+                        `
+                <div class="review-content">
+
+                    ${review.guestName
+                            ?
+                            `
+                        <div class="review-name">
+                            ${review.guestName}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
+
+                    ${review.guestPhone
+                            ?
+                            `
+                        <div class="review-phone">
+                            ${maskPhone(
+                                review.guestPhone
+                            )}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
+
+                    <div class="review-rating">
+                        ${"⭐".repeat(
+                            review.rating || 5
+                        )}
+                    </div>
+
+                    ${review.title
+                            ?
+                            `
+                        <div class="blog-title">
+                            ${review.title}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
+
+                    ${review.content
+                            ?
+                            `
+                        <div class="review-text">
+                            ${review.content}
+                        </div>
+                        `
+                            :
+                            ""
+                        }
+
+                </div>
+                `
+                        :
+                        ""
+                    }
+
+        </div>
+
     `).join("");
 
-}
-
+        }
         loadWebsiteBlogs();
 
         loadWebsiteReviews();
+        window.openImageModal = function (url) {
+
+            const modal =
+                document.getElementById(
+                    "imageModal"
+                );
+
+            const img =
+                document.getElementById(
+                    "modalImage"
+                );
+
+            img.src = url;
+
+            modal.style.display =
+                "flex";
+        };
+
+        window.closeImageModal = function () {
+
+            document.getElementById(
+                "imageModal"
+            ).style.display =
+                "none";
+        };
+
+        /* Click vùng tối để đóng */
+
+        document
+            .getElementById(
+                "imageModal"
+            )
+            .addEventListener(
+                "click",
+                function (e) {
+
+                    if (
+                        e.target.id ===
+                        "imageModal"
+                    ) {
+
+                        closeImageModal();
+
+                    }
+
+                }
+            );
+
+        /* ESC để đóng */
+
+        document.addEventListener(
+            "keydown",
+            function (e) {
+
+                if (
+                    e.key === "Escape"
+                ) {
+
+                    closeImageModal();
+
+                }
+
+            }
+        );
     </script>
 
 </body>
