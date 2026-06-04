@@ -2194,6 +2194,232 @@
                 border-radius: 50%;
             }
         }
+
+        .gallery-section,
+        .review-section {
+
+            margin-top: 80px;
+        }
+
+        .section-header {
+
+            text-align: center;
+
+            margin-bottom: 36px;
+        }
+
+        .section-header h2 {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+
+            color: #222;
+        }
+
+        .section-header p {
+
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+        /* BLOG */
+
+        .blog-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 24px;
+        }
+
+        .blog-card {
+
+            background: #fff;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            border: 1px solid #eee;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .05);
+
+            transition: .25s;
+        }
+
+        .blog-card:hover {
+
+            transform: translateY(-4px);
+        }
+
+        .blog-card img {
+
+            width: 100%;
+
+            height: 240px;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .blog-body {
+
+            padding: 22px;
+        }
+
+        .blog-title {
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #222;
+
+            margin-bottom: 10px;
+        }
+
+        .blog-content {
+
+            color: #666;
+
+            line-height: 1.7;
+        }
+
+
+        /* REVIEW */
+
+        .review-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 24px;
+        }
+
+        .review-card {
+
+            background: #fff;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            border: 1px solid #eee;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .05);
+
+            padding: 22px;
+        }
+
+        .review-top {
+
+            display: flex;
+
+            gap: 14px;
+
+            margin-bottom: 16px;
+        }
+
+        .review-avatar {
+
+            width: 64px;
+
+            height: 64px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            flex-shrink: 0;
+        }
+
+        .review-name {
+
+            font-weight: 700;
+
+            color: #222;
+
+            margin-bottom: 4px;
+        }
+
+        .review-phone {
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        .review-stars {
+
+            margin-top: 6px;
+
+            color: #f5a623;
+
+            font-size: 15px;
+        }
+
+        .review-title {
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+            color: #222;
+        }
+
+        .review-content {
+
+            color: #666;
+
+            line-height: 1.7;
+        }
+
+        .review-image {
+
+            width: 100%;
+
+            border-radius: 18px;
+
+            margin-top: 16px;
+
+            object-fit: cover;
+
+            max-height: 260px;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width:768px) {
+
+            .section-header h2 {
+
+                font-size: 26px;
+            }
+
+            .blog-grid,
+            .review-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .blog-card img {
+
+                height: 220px;
+            }
+        }
     </style>
 </head>
 
@@ -2271,7 +2497,28 @@
             <h2>Thư viện ảnh</h2>
             <!-- <p>Sau này lấy từ Firebase Storage.</p> -->
         </div>
+        <section class="gallery-section">
 
+            <div class="section-header">
+                <h2>📸 Ảnh thư viện</h2>
+                <p>Những khoảnh khắc và bài viết mới nhất</p>
+            </div>
+
+            <div id="blogGallery" class="blog-grid"></div>
+
+        </section>
+
+
+        <section class="review-section">
+
+            <div class="section-header">
+                <h2>💬 Review khách hàng</h2>
+                <p>Những chia sẻ chân thực từ khách lưu trú</p>
+            </div>
+
+            <div id="reviewGrid" class="review-grid"></div>
+
+        </section>
     </div>
     <section class="stats-bar">
 
@@ -2784,6 +3031,171 @@ ${booking ? '●' : ''}
                 document.getElementById('calendarTab')?.click();
             });
         load();
+
+        function maskPhone(phone) {
+
+            if (!phone) return "";
+
+            if (phone.length < 4)
+                return phone;
+
+            return (
+                phone.slice(0, -4)
+                + "xxxx"
+            );
+        }
+
+async function loadWebsiteBlogs() {
+
+  const snapshot =
+    await get(
+      ref(db, "websiteBlogs")
+    );
+
+  const data =
+    snapshot.val() || {};
+
+  const blogs =
+    Object.values(data)
+      .sort(
+        (a,b)=>
+          b.createdAt - a.createdAt
+      );
+
+  const container =
+    document.getElementById(
+      "blogGallery"
+    );
+
+  container.innerHTML =
+    blogs.map(blog => `
+      <div class="blog-card">
+
+        ${blog.image
+          ? `<img src="${blog.image}">`
+          : ""
+        }
+
+        <div class="blog-body">
+
+          ${blog.title
+            ? `<div class="blog-title">${blog.title}</div>`
+            : ""
+          }
+
+          ${blog.content
+            ? `<div class="blog-content">${blog.content}</div>`
+            : ""
+          }
+
+        </div>
+
+      </div>
+    `).join("");
+
+}
+
+async function loadWebsiteReviews() {
+
+  const snapshot =
+    await get(
+      ref(db, "websiteReviews")
+    );
+
+  const data =
+    snapshot.val() || {};
+
+  const reviews =
+    Object.values(data)
+      .sort(
+        (a,b)=>
+          b.createdAt - a.createdAt
+      );
+
+  const container =
+    document.getElementById(
+      "reviewGrid"
+    );
+
+  container.innerHTML =
+    reviews.map(review => `
+      <div class="review-card">
+
+        <div class="review-top">
+
+          ${
+            review.image
+            ? `
+            <img
+              src="${review.image}"
+              class="review-avatar"
+            >
+            `
+            : ""
+          }
+
+          <div>
+
+            ${
+              review.guestName
+              ? `
+              <div class="review-name">
+                ${review.guestName}
+              </div>
+              `
+              : ""
+            }
+
+            ${
+              review.guestPhone
+              ? `
+              <div class="review-phone">
+                ${maskPhone(
+                  review.guestPhone
+                )}
+              </div>
+              `
+              : ""
+            }
+
+            <div class="review-stars">
+              ${"⭐".repeat(
+                review.rating || 5
+              )}
+            </div>
+
+          </div>
+
+        </div>
+
+        ${
+          review.title
+          ? `
+          <div class="review-title">
+            ${review.title}
+          </div>
+          `
+          : ""
+        }
+
+        ${
+          review.content
+          ? `
+          <div class="review-content">
+            ${review.content}
+          </div>
+          `
+          : ""
+        }
+
+      </div>
+    `).join("");
+
+}
+
+        loadWebsiteBlogs();
+
+        loadWebsiteReviews();
     </script>
 
 </body>
