@@ -3417,6 +3417,528 @@
         #pricingPreview {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        @media (max-width:768px) {
+
+            .gallery-airbnb {
+
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+            .gallery-main img {
+
+                width: 100%;
+
+                height: 260px;
+
+                border-radius: 16px;
+            }
+
+            .gallery-side {
+
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+            }
+
+            .gallery-side img,
+            .gallery-last img {
+
+                width: 100%;
+
+                height: 120px;
+
+                object-fit: cover;
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .pricing-card {
+
+                position: static !important;
+
+                top: auto !important;
+
+                max-height: none !important;
+
+                overflow: visible !important;
+
+                margin-top: 20px;
+            }
+        }
+
+        .detail-sidebar {
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+        .pricing-card {
+
+            width: 100%;
+
+            max-width: 340px;
+        }
+
+        @media (max-width:768px) {
+
+            .detail-layout {
+
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+            .detail-main {
+
+                width: 100%;
+            }
+
+            .detail-sidebar {
+
+                width: 100%;
+
+                display: flex;
+
+                justify-content: center;
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .hero-image {
+
+                height: 220px;
+
+                border-radius: 14px;
+            }
+        }
+
+        /* =========================================
+   HOME DETAIL - AIRBNB STYLE RESPONSIVE
+========================================= */
+
+        #homeDetailPage {
+            background: #fff;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .home-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            width: 100%;
+        }
+
+        .home-header {
+            margin: 24px 0;
+        }
+
+        #homeName {
+            font-size: 36px;
+            font-weight: 700;
+            color: #222;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #FF385C;
+        }
+
+        /* ===== LAYOUT ===== */
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 340px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .detail-main {
+            min-width: 0;
+        }
+
+        .detail-sidebar {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ===== PRICING CARD ===== */
+
+        .pricing-card {
+            position: sticky;
+            top: 90px;
+
+            width: 100%;
+
+            background: #fff;
+
+            border: 1px solid #e9e9e9;
+            border-radius: 18px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, .08);
+        }
+
+        .pricing-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        /* ===== PRICE PREVIEW ===== */
+
+        #pricingPreview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .price-preview-card {
+            background: #fafafa;
+            border: 1px solid #efefef;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .price-preview-label {
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .price-preview-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF385C;
+        }
+
+        /* ===== PRICE TABLE ===== */
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .price-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        /* ===== GALLERY ===== */
+
+        .gallery-airbnb {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        .gallery-side {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .gallery-side img,
+        .gallery-last img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        /* ===== TABLET ===== */
+
+        @media(max-width:992px) {
+
+            .detail-layout {
+                grid-template-columns: minmax(0, 1fr) 280px;
+                gap: 24px;
+            }
+
+            #homeName {
+                font-size: 30px;
+            }
+
+            .gallery-main img {
+                height: 400px;
+            }
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media(max-width:768px) {
+
+            .home-detail-container {
+                padding: 16px;
+            }
+
+            #homeName {
+                font-size: 26px;
+            }
+
+            .price {
+                font-size: 18px;
+            }
+
+            .detail-layout {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .detail-main {
+                order: 1;
+            }
+
+            .detail-sidebar {
+                order: 2;
+                width: 100%;
+            }
+
+            .pricing-card {
+                position: static;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .gallery-airbnb {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .gallery-main img {
+                height: 240px;
+            }
+
+            .gallery-side {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .gallery-side img,
+            .gallery-last img {
+                height: 110px;
+            }
+        }
+
+        /* ===== SMALL MOBILE ===== */
+
+        @media(max-width:480px) {
+
+            .home-detail-container {
+                padding: 12px;
+            }
+
+            #homeName {
+                font-size: 22px;
+            }
+
+            .gallery-main img {
+                height: 200px;
+            }
+
+            .gallery-side img,
+            .gallery-last img {
+                height: 90px;
+            }
+
+            #pricingPreview {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .price-preview-card {
+                padding: 8px;
+            }
+
+            .price-preview-value {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .section {
+                margin-bottom: 20px;
+            }
+
+            #galleryImages {
+                margin-bottom: 0 !important;
+            }
+
+            .gallery-airbnb {
+
+                display: flex !important;
+
+                flex-direction: column;
+
+                gap: 8px;
+
+                height: auto !important;
+
+                min-height: auto !important;
+            }
+
+            .gallery-main {
+
+                height: auto !important;
+            }
+
+            .gallery-main img {
+
+                height: 240px !important;
+            }
+
+            .gallery-side {
+
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 8px;
+
+                height: auto !important;
+            }
+
+            .gallery-side img,
+            .gallery-last img {
+
+                height: 100px !important;
+            }
+
+            .detail-layout {
+
+                gap: 12px !important;
+            }
+
+            .pricing-card {
+
+                margin-top: 0 !important;
+            }
+        }
+
+        @media (max-width:768px) {
+
+            #galleryImages {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .gallery-airbnb {
+
+                display: flex !important;
+                flex-direction: column !important;
+
+                gap: 8px !important;
+
+                height: auto !important;
+                min-height: unset !important;
+            }
+
+            .gallery-main {
+
+                height: auto !important;
+                min-height: unset !important;
+            }
+
+            .gallery-main img {
+
+                width: 100% !important;
+                height: 220px !important;
+
+                object-fit: cover !important;
+            }
+
+            .gallery-side {
+
+                display: grid !important;
+
+                grid-template-columns: 1fr 1fr !important;
+
+                grid-template-rows: auto !important;
+
+                gap: 8px !important;
+
+                height: auto !important;
+                min-height: unset !important;
+            }
+
+            .gallery-side img,
+            .gallery-last img {
+
+                width: 100% !important;
+                height: 100px !important;
+
+                object-fit: cover !important;
+            }
+
+            .gallery-last {
+                height: auto !important;
+            }
+
+            .detail-layout {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+            }
+
+            .detail-main {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            .detail-sidebar {
+                margin-top: 0 !important;
+            }
+
+            .pricing-card {
+                position: static !important;
+                margin-top: 0 !important;
+            }
+        }
     </style>
 </head>
 
