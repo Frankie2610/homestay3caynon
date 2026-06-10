@@ -2,41 +2,37 @@
 <html lang="vi">
 
 <head>
-   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Homestay 3 Cây Non Bình Thạnh | Homestay Gần Quận 1 Cho Cặp Đôi</title>
+    <title>Homestay 3 Cây Non Bình Thạnh | Homestay Gần Quận 1 Cho Cặp Đôi</title>
 
-<meta name="description"
-      content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và chân cầu Bông. Homestay cho cặp đôi với Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và không gian nghỉ dưỡng riêng tư tại TP.HCM.">
+    <meta name="description"
+        content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và chân cầu Bông. Homestay cho cặp đôi với Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và không gian nghỉ dưỡng riêng tư tại TP.HCM.">
 
-<link rel="canonical"
-      href="https://homestay3caynon.vercel.app/">
+    <link rel="canonical" href="https://homestay3caynon.vercel.app/">
 
-<!-- Open Graph (Facebook, Zalo, Messenger, Discord...) -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Homestay 3 Cây Non">
+    <!-- Open Graph (Facebook, Zalo, Messenger, Discord...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Homestay 3 Cây Non">
 
-<meta property="og:title"
-      content="Homestay 3 Cây Non Bình Thạnh | Homestay Gần Quận 1">
+    <meta property="og:title" content="Homestay 3 Cây Non Bình Thạnh | Homestay Gần Quận 1">
 
-<meta property="og:description"
-      content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và chân cầu Bông. Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và không gian nghỉ dưỡng riêng tư tại TP.HCM.">
+    <meta property="og:description"
+        content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và chân cầu Bông. Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và không gian nghỉ dưỡng riêng tư tại TP.HCM.">
 
-<meta property="og:url"
-      content="https://homestay3caynon.vercel.app/">
+    <meta property="og:url" content="https://homestay3caynon.vercel.app/">
 
-<meta property="og:image"
-      content="https://homestay3caynon.vercel.app/cover.jpg">
+    <meta property="og:image" content="https://homestay3caynon.vercel.app/cover.jpg">
 
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-<!-- Twitter/X -->
-<meta name="twitter:card" content="summary_large_image">
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="/logo3caynon.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logo3caynon.png">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -4931,7 +4927,7 @@ ${booking ? '●' : ''}
             history.pushState(
                 {},
                 '',
-                `?id=${homeId}`
+                `/HOME${Object.values(roomMap).indexOf(homeId) + 1}`
             );
         }
 
@@ -4950,56 +4946,56 @@ ${booking ? '●' : ''}
             renderTabs();
             renderCalendar();
         }
-      async function load() {
+        async function load() {
 
-    const homeSnap = await get(ref(db, "homes"));
+            const homeSnap = await get(ref(db, "homes"));
 
-    if (homeSnap.exists()) {
+            if (homeSnap.exists()) {
 
-        homes = homeSnap.val();
-        roomMap = {};
+                homes = homeSnap.val();
+                roomMap = {};
 
-        // Tạo mapping HOME1 -> Firebase ID
-        Object.keys(homes).forEach((id, index) => {
-            roomMap[`HOME${index + 1}`] = id;
-        });
-    }
+                // Tạo mapping HOME1 -> Firebase ID
+                Object.keys(homes).forEach((id, index) => {
+                    roomMap[`HOME${index + 1}`] = id;
+                });
+            }
 
-    const snap = await get(ref(db, "bookings"));
+            const snap = await get(ref(db, "bookings"));
 
-    if (snap.exists()) {
-        const data = snap.val();
-        bookings = Object.values(data);
-    }
+            if (snap.exists()) {
+                const data = snap.val();
+                bookings = Object.values(data);
+            }
 
-    const homeTitle =
-        decodeURIComponent(
-            window.location.pathname.substring(1)
-        );
+            const homeTitle =
+                decodeURIComponent(
+                    window.location.pathname.substring(1)
+                );
 
-    const homeId = roomMap[homeTitle];
+            const homeId = roomMap[homeTitle];
 
-    console.log("homeTitle =", homeTitle);
-    console.log("homeId =", homeId);
+            console.log("homeTitle =", homeTitle);
+            console.log("homeId =", homeId);
 
-    if (homeId) {
+            if (homeId) {
 
-        await renderHomeDetail(homeId);
+                await renderHomeDetail(homeId);
 
-    } else {
+            } else {
 
-        rooms = Object.entries(homes).map(([id, home]) => ({
-            id,
-            name: home.title || home.name || id
-        }));
+                rooms = Object.entries(homes).map(([id, home]) => ({
+                    id,
+                    name: home.title || home.name || id
+                }));
 
-        currentRoom = rooms[0]?.id;
+                currentRoom = rooms[0]?.id;
 
-        renderRooms();
-        renderTabs();
-        renderCalendar();
-    }
-}  document.getElementById('menuHomes')
+                renderRooms();
+                renderTabs();
+                renderCalendar();
+            }
+        } document.getElementById('menuHomes')
             ?.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.getElementById('homesTab')?.click();
