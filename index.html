@@ -4933,16 +4933,17 @@ ${booking ? '●' : ''}
 
         window.goHome = function () {
 
-            history.pushState(
-                {},
-                '',
-                location.pathname
-            );
+            history.pushState({}, '', '/');
 
-            location.reload();
-        }; window.switchRoom = (roomId) => {
+            document.getElementById('homeDetailPage').style.display = 'none';
 
-            currentRoom = roomId;
+            document.querySelector('.hero').style.display = '';
+            document.querySelector('.tabs').style.display = '';
+            document.getElementById('homes').style.display = '';
+            document.getElementById('calendarPage').style.display = '';
+            document.getElementById('gallery').style.display = '';
+
+            renderRooms();
             renderTabs();
             renderCalendar();
         }
