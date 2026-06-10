@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
-    <title>Homestay 3 Cây Non Bình Thạnh | Homestay Gần Quận 1 Cho Cặp Đôi</title>
+    <link rel="preload" as="image" href="/cover.jpg">
+    <title>
+        Homestay 3 Cây Non Bình Thạnh | Netflix, Máy Chiếu, Bồn Tắm Riêng
+    </title>
 
     <meta name="description"
-        content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và chân cầu Bông. Homestay cho cặp đôi với Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và không gian nghỉ dưỡng riêng tư tại TP.HCM.">
+        content="Homestay 3 Cây Non tại Bình Thạnh, gần Quận 1 và cầu Bông. Homestay nghỉ dưỡng riêng tư cho cặp đôi tại TP.HCM với Netflix, máy chiếu, TV 55 inch, bồn tắm riêng và check-in linh hoạt.">
 
     <link rel="canonical" href="https://homestay3caynon.vercel.app/">
 
@@ -30,6 +32,30 @@
 
     <!-- Twitter/X -->
     <meta name="twitter:card" content="summary_large_image">
+
+    <meta property="og:image" content="https://homestay3caynon.vercel.app/cover.jpg">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Homestay 3 Cây Non",
+  "url": "https://homestay3caynon.vercel.app/",
+  "image": "https://homestay3caynon.vercel.app/cover.jpg",
+  "telephone": "+84902932808",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "23/5/18 Lê Văn Duyệt",
+    "addressLocality": "Bình Thạnh",
+    "addressRegion": "Hồ Chí Minh",
+    "postalCode": "700000",
+    "addressCountry": "VN"
+  },
+  "sameAs": [
+    "https://share.google/gg4BQST8rETS06GNK"
+  ]
+}
+</script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/logo3caynon.png">
@@ -5735,6 +5761,10 @@ ${booking ? '●' : ''}
                     prevImg();
                 }
             });
+
+        window.addEventListener('popstate', () => {
+            location.reload();
+        });
     </script>
     <div id="imgModal" class="image-modal" onclick="closeImg(event)">
 
