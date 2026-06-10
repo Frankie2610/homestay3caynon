@@ -837,7 +837,7 @@
         }
 
         .header-inner .main-menu a {
-            font-size: 22px !important
+            font-size: 20px !important
         }
 
         .calendar-pagination {
@@ -3939,6 +3939,179 @@
                 margin-top: 0 !important;
             }
         }
+
+        .modal-prev,
+        .modal-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 54px;
+            height: 54px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, .15);
+            backdrop-filter: blur(10px);
+
+            color: #fff;
+            font-size: 32px;
+
+            cursor: pointer;
+            z-index: 999999;
+        }
+
+        .modal-prev {
+            left: 24px;
+        }
+
+        .modal-next {
+            right: 24px;
+        }
+
+        .modal-prev:hover,
+        .modal-next:hover {
+            background: rgba(255, 255, 255, .25);
+        }
+
+        @media(max-width:768px) {
+
+            .modal-prev,
+            .modal-next {
+                width: 44px;
+                height: 44px;
+                font-size: 24px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+        }
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 340px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .detail-sidebar {
+            position: relative;
+            align-self: start;
+        }
+
+        .image-modal {
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, .92);
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 999999;
+        }
+
+        #modalImg {
+
+            max-width: 92vw;
+            max-height: 92vh;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, .45);
+        }
+
+        @media (max-width:768px) {
+
+            #modalImg {
+
+                max-width: 100vw;
+                max-height: 85vh;
+
+                border-radius: 0;
+            }
+
+            .modal-prev,
+            .modal-next {
+
+                width: 38px;
+                height: 38px;
+
+                font-size: 18px;
+
+                background: rgba(0, 0, 0, .45);
+            }
+
+            .modal-prev {
+                left: 8px;
+            }
+
+            .modal-next {
+                right: 8px;
+            }
+        }
+
+        .image-modal .close {
+
+            position: absolute;
+
+            top: 18px;
+            right: 22px;
+
+            color: #fff;
+
+            font-size: 40px;
+
+            cursor: pointer;
+
+            z-index: 1000001;
+        }
+
+        #modalImg {
+
+            animation: zoomIn .18s ease;
+        }
+
+        @keyframes zoomIn {
+
+            from {
+                opacity: 0;
+                transform: scale(.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .modal-prev,
+            .modal-next {
+
+                width: 36px !important;
+                height: 36px !important;
+
+                font-size: 14px !important;
+
+                background: rgba(0, 0, 0, .25) !important;
+            }
+        }
     </style>
 </head>
 
@@ -4143,13 +4316,7 @@
     </div>
 
     <!-- ================= MODAL ẢNH (QUAN TRỌNG) ================= -->
-    <div id="imgModal" class="image-modal" onclick="closeImg(event)">
 
-        <span class="close" onclick="closeImg(event)">&times;</span>
-
-        <img id="modalImg" onclick="event.stopPropagation()">
-
-    </div>
 
     <!-- =====================================
      GALLERY MODAL
@@ -4540,12 +4707,15 @@ ${booking ? '●' : ''}
             renderCalendar();
         });
 
-        async function renderHomeDetail(homeId) {
+        function renderHomeDetail(homeId) {
 
-            const snap = await get(ref(db, `homes/${homeId}`));
-            if (!snap.exists()) return;
+            // LẤY TỪ CACHE ĐÃ LOAD SẴN
+            const home = homes?.[homeId];
 
-            const home = snap.val();
+            if (!home) {
+                console.error("Không tìm thấy home:", homeId);
+                return;
+            }
 
             // ===== HIDE UI =====
             document.querySelector('.hero').style.display = 'none';
@@ -4559,13 +4729,19 @@ ${booking ? '●' : ''}
             if (stats) stats.style.display = 'none';
 
             // ===== TITLE =====
-            document.title = home.name || home.title || 'Home';
+            document.title =
+                home.name ||
+                home.title ||
+                'Home';
 
             document.getElementById('homeName').textContent =
-                home.name || home.title || '';
+                home.name ||
+                home.title ||
+                '';
 
             // ===== PRICE =====
-            const pricing = home.pricing || {};
+            const pricing =
+                home.pricing || {};
 
             const package2 = Number(
                 pricing?.packages?.[2] ||
@@ -4579,16 +4755,23 @@ ${booking ? '●' : ''}
                 0
             );
 
-            const priceEl = document.getElementById('price');
+            const priceEl =
+                document.getElementById('price');
 
             if (package2 > 0) {
+
                 priceEl.innerHTML =
                     `🔥 Từ ${package2.toLocaleString('vi-VN')}đ / 2 giờ`;
+
             } else if (hourly > 0) {
+
                 priceEl.innerHTML =
                     `🔥 Chỉ từ ${hourly.toLocaleString('vi-VN')}đ / giờ`;
+
             } else {
-                priceEl.innerHTML = 'Liên hệ';
+
+                priceEl.innerHTML =
+                    'Liên hệ';
             }
 
             // ===== DESCRIPTION =====
@@ -4597,91 +4780,141 @@ ${booking ? '●' : ''}
 
             // ===== COVER =====
             document.getElementById('coverImage').src =
-                home.coverImage || '';
+                home.coverImage ||
+                home.images?.[0] ||
+                '';
 
             // ===== AMENITIES =====
-            const a = document.getElementById('amenities');
-            a.innerHTML = '';
+            const amenitiesEl =
+                document.getElementById('amenities');
 
-            (home.amenities || []).forEach(x => {
-                a.innerHTML += `
+            amenitiesEl.innerHTML =
+                (home.amenities || [])
+                    .map(x => `
             <div class="amenity-item">
                 ✓ ${x}
             </div>
-        `;
-            });
+        `)
+                    .join('');
 
             // ===== GALLERY =====
-            const g = document.getElementById("galleryImages");
-            g.innerHTML = "";
 
-            const imgs = Array.isArray(home.images)
-                ? home.images
-                : Object.values(home.images || {});
+            const galleryEl =
+                document.getElementById("galleryImages");
 
-            if (!imgs.length) {
-                g.innerHTML = "<p>Chưa có hình ảnh</p>";
-                return;
-            }
+            galleryEl.innerHTML =
+                '<div class="gallery-loading">Đang tải hình ảnh...</div>';
 
-            const preview = imgs.slice(0, 5);
-            const remain = imgs.length - 5;
+            // Render gallery sau khi UI hiện ra
+            requestAnimationFrame(() => {
 
-            g.innerHTML = `
-    <div class="gallery-airbnb">
+                const imgs =
+                    Array.isArray(home.images)
+                        ? home.images
+                        : Object.values(home.images || {});
 
-        <div class="gallery-main">
-            <img src="${preview[0]}"
-                 loading="lazy"
-                 onclick="openImg(this.src)">
+                if (!imgs.length) {
+
+                    galleryEl.innerHTML =
+                        "<p>Chưa có hình ảnh</p>";
+
+                    return;
+                }
+
+                const preview =
+                    imgs.slice(0, 5);
+
+                const remain =
+                    imgs.length - 5;
+
+                galleryEl.innerHTML = `
+
+        <div class="gallery-airbnb">
+
+            <div class="gallery-main">
+
+                <img src="${preview[0]}"
+                     loading="lazy"
+                     onclick="openGallery(0)">
+
+            </div>
+
+            <div class="gallery-side">
+
+                ${preview[1] ? `
+                    <img src="${preview[1]}"
+                         loading="lazy"
+                         onclick="openGallery(1)">
+                ` : ""}
+
+                ${preview[2] ? `
+                    <img src="${preview[2]}"
+                         loading="lazy"
+                         onclick="openGallery(2)">
+                ` : ""}
+
+                ${preview[3] ? `
+                    <img src="${preview[3]}"
+                         loading="lazy"
+                         onclick="openGallery(3)">
+                ` : ""}
+
+                ${preview[4] ? `
+
+                    <div class="gallery-last"
+                         onclick="openGallery(4)">
+
+                        <img src="${preview[4]}"
+                             loading="lazy">
+
+                        ${remain > 0 ? `
+                            <div class="gallery-overlay">
+                                +${remain} ảnh
+                            </div>
+                        ` : ""}
+
+                    </div>
+
+                ` : ""}
+
+            </div>
+
         </div>
 
-        <div class="gallery-side">
+        `;
 
-            ${preview[1] ? `
-                <img src="${preview[1]}"
-                     loading="lazy"
-                     onclick="openImg(this.src)">
-            ` : ""}
+                // Global gallery
+                window.currentGallery = imgs;
 
-            ${preview[2] ? `
-                <img src="${preview[2]}"
-                     loading="lazy"
-                     onclick="openImg(this.src)">
-            ` : ""}
-
-            ${preview[3] ? `
-                <img src="${preview[3]}"
-                     loading="lazy"
-                     onclick="openImg(this.src)">
-            ` : ""}
-
-            ${preview[4] ? `
-                <div class="gallery-last"
-                     onclick="openImg(this.querySelector('img').src)">
-
-                    <img src="${preview[4]}" loading="lazy">
-
-                    ${remain > 0 ? `
-                        <div class="gallery-overlay">
-                            +${remain} ảnh
-                        </div>
-                    ` : ""}
-
-                </div>
-            ` : ""}
-
-        </div>
-
-    </div>
-`;
-            // optional nếu bạn cần dùng global
-            window.currentGallery = imgs;
+            });
 
             // ===== PRICING =====
-            renderPricing(home.pricing || {});
-        } window.goHome = () => location.href = location.pathname;
-        window.switchRoom = (roomId) => {
+            renderPricing(pricing);
+
+            // ===== SCROLL TOP =====
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // ===== URL SPA =====
+            history.pushState(
+                {},
+                '',
+                `?id=${homeId}`
+            );
+        }
+
+        window.goHome = function () {
+
+            history.pushState(
+                {},
+                '',
+                location.pathname
+            );
+
+            location.reload();
+        }; window.switchRoom = (roomId) => {
 
             currentRoom = roomId;
             renderTabs();
@@ -5054,33 +5287,59 @@ ${booking ? '●' : ''}
                 pricing.night ||
                 {};
 
-            // ===== GIÁ THAM KHẢO =====
+            // =========================
+            // LỌC GIÁ > 0
+            // =========================
+
+            const packagesFiltered =
+                Object.fromEntries(
+                    Object.entries(packages)
+                        .filter(
+                            ([_, price]) =>
+                                Number(price) > 0
+                        )
+                );
+
+            const nightFiltered =
+                Object.fromEntries(
+                    Object.entries(night)
+                        .filter(
+                            ([_, price]) =>
+                                Number(price) > 0
+                        )
+                );
+
+            // =========================
+            // GIÁ THAM KHẢO
+            // =========================
 
             const price2 =
-                Number(packages[2] || 0);
+                Number(packagesFiltered[2] || 0);
 
             const has4 =
-                Number(packages[4] || 0) > 0;
+                Number(packagesFiltered[4] || 0) > 0;
 
             const has3 =
-                Number(packages[3] || 0) > 0;
+                Number(packagesFiltered[3] || 0) > 0;
 
             const middleHour =
                 has4 ? 4 : 3;
 
             const middlePrice =
                 Number(
-                    packages[4] ||
-                    packages[3] ||
+                    packagesFiltered[4] ||
+                    packagesFiltered[3] ||
                     0
                 );
 
             const price7 =
-                Number(packages[7] || 0);
+                Number(packagesFiltered[7] || 0);
 
             if (previewEl) {
 
                 previewEl.innerHTML = `
+
+            ${price2 > 0 ? `
 
             <div class="price-preview-card">
 
@@ -5093,6 +5352,8 @@ ${booking ? '●' : ''}
                 </div>
 
             </div>
+
+            ` : ""}
 
             ${middlePrice > 0 ? `
 
@@ -5129,11 +5390,13 @@ ${booking ? '●' : ''}
         `;
             }
 
-            // ===== BẢNG GIÁ CHI TIẾT =====
+            // =========================
+            // BẢNG GIÁ CHI TIẾT
+            // =========================
 
             let html = "";
 
-            Object.entries(packages)
+            Object.entries(packagesFiltered)
                 .sort(
                     (a, b) =>
                         Number(a[0]) -
@@ -5156,13 +5419,17 @@ ${booking ? '●' : ''}
 
                 </div>
 
-            `;
+                `;
 
                     }
                 );
 
+            // =========================
+            // QUA ĐÊM
+            // =========================
+
             if (
-                Object.keys(night).length > 0
+                Object.keys(nightFiltered).length > 0
             ) {
 
                 html += `
@@ -5175,7 +5442,7 @@ ${booking ? '●' : ''}
 
         `;
 
-                Object.entries(night)
+                Object.entries(nightFiltered)
                     .sort(
                         (a, b) =>
                             Number(a[0]) -
@@ -5198,13 +5465,17 @@ ${booking ? '●' : ''}
 
                     </div>
 
-                `;
+                    `;
 
                         }
                     );
 
                 html += `</div>`;
             }
+
+            // =========================
+            // PHỤ THU
+            // =========================
 
             const extraHour =
                 Number(
@@ -5242,8 +5513,7 @@ ${booking ? '●' : ''}
 
             if (tableEl)
                 tableEl.innerHTML = html;
-        }
-        window.openGalleryModal =
+        } window.openGalleryModal =
             function () {
 
                 const modal =
@@ -5310,34 +5580,6 @@ ${booking ? '●' : ''}
 
             currentImageIndex++;
 
-            if (currentImageIndex >= window.currentGallery.length) {
-                currentImageIndex = 0;
-            }
-
-            document.getElementById("modalImg").src =
-                window.currentGallery[currentImageIndex];
-        };
-
-        window.prevImg = function (e) {
-
-            if (e) e.stopPropagation();
-
-            currentImageIndex--;
-
-            if (currentImageIndex < 0) {
-                currentImageIndex =
-                    window.currentGallery.length - 1;
-            }
-
-            document.getElementById("modalImg").src =
-                window.currentGallery[currentImageIndex];
-        };
-        window.nextImg = function (e) {
-
-            if (e) e.stopPropagation();
-
-            currentImageIndex++;
-
             if (currentImageIndex >= currentGallery.length)
                 currentImageIndex = 0;
 
@@ -5396,6 +5638,77 @@ ${booking ? '●' : ''}
                     closeImg();
             });
         });
+
+        window.openGallery = function (startIndex = 0) {
+
+            if (!window.currentGallery?.length) return;
+
+            currentImageIndex = startIndex;
+
+            document.getElementById("modalImg").src =
+                window.currentGallery[currentImageIndex];
+
+            document.getElementById("imgModal").style.display =
+                "flex";
+        };
+
+        window.nextImg = function (e) {
+
+            if (e) e.stopPropagation();
+
+            if (!window.currentGallery?.length) return;
+
+            currentImageIndex++;
+
+            if (currentImageIndex >= window.currentGallery.length) {
+                currentImageIndex = 0;
+            }
+
+            document.getElementById("modalImg").src =
+                window.currentGallery[currentImageIndex];
+        };
+
+        window.prevImg = function (e) {
+
+            if (e) e.stopPropagation();
+
+            if (!window.currentGallery?.length) return;
+
+            currentImageIndex--;
+
+            if (currentImageIndex < 0) {
+                currentImageIndex =
+                    window.currentGallery.length - 1;
+            }
+
+            document.getElementById("modalImg").src =
+                window.currentGallery[currentImageIndex];
+        };
+
+        let touchStartX = 0;
+
+        document.getElementById("modalImg")
+            .addEventListener("touchstart", e => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+        document.getElementById("modalImg")
+            .addEventListener("touchend", e => {
+
+                const touchEndX =
+                    e.changedTouches[0].clientX;
+
+                const diff =
+                    touchStartX - touchEndX;
+
+                if (diff > 50) {
+                    nextImg();
+                }
+
+                if (diff < -50) {
+                    prevImg();
+                }
+            });
     </script>
     <div id="imgModal" class="image-modal" onclick="closeImg(event)">
 
