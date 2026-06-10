@@ -4502,7 +4502,7 @@
 
                 grid.innerHTML += `
         <div class="room-card"
-             onclick="location.href='?id=${key}'">
+             onclick="location.href='/${home.title}'">
 
             <img src="${home.coverImage}">
 
@@ -4950,57 +4950,56 @@ ${booking ? '●' : ''}
             renderTabs();
             renderCalendar();
         }
-        async function load() {
+      async function load() {
 
-            const homeSnap = await get(ref(db, "homes"));
+    const homeSnap = await get(ref(db, "homes"));
 
-            if (homeSnap.exists()) {
+    if (homeSnap.exists()) {
 
-                homes = homeSnap.val();
-                roomMap = {};
+        homes = homeSnap.val();
+        roomMap = {};
 
-                Object.entries(homes).forEach(([id, home]) => {
+        // Tạo mapping HOME1 -> Firebase ID
+        Object.keys(homes).forEach((id, index) => {
+            roomMap[`HOME${index + 1}`] = id;
+        });
+    }
 
-                    const title = home.title || home.name;
+    const snap = await get(ref(db, "bookings"));
 
-                    roomMap[title] = id;
+    if (snap.exists()) {
+        const data = snap.val();
+        bookings = Object.values(data);
+    }
 
-                });
-                // Tạo mapping HOME1 -> Firebase ID
-                Object.keys(homes).forEach((id, index) => {
-                    roomMap[`HOME${index + 1}`] = id;
-                });
-            }
+    const homeTitle =
+        decodeURIComponent(
+            window.location.pathname.substring(1)
+        );
 
-            const snap = await get(ref(db, "bookings"));
+    const homeId = roomMap[homeTitle];
 
-            if (snap.exists()) {
-                const data = snap.val();
-                bookings = Object.values(data);
-            }
+    console.log("homeTitle =", homeTitle);
+    console.log("homeId =", homeId);
 
-            const homeId =
-                new URLSearchParams(location.search).get('id');
+    if (homeId) {
 
-            if (homeId) {
+        await renderHomeDetail(homeId);
 
-                await renderHomeDetail(homeId);
+    } else {
 
-            } else {
+        rooms = Object.entries(homes).map(([id, home]) => ({
+            id,
+            name: home.title || home.name || id
+        }));
 
-                rooms = Object.entries(homes).map(([id, home]) => ({
-                    id,
-                    name: home.title || home.name || id
-                }));
+        currentRoom = rooms[0]?.id;
 
-                currentRoom = rooms[0]?.id;
-
-                renderRooms();
-                renderTabs();
-                renderCalendar();
-            }
-        }
-        document.getElementById('menuHomes')
+        renderRooms();
+        renderTabs();
+        renderCalendar();
+    }
+}  document.getElementById('menuHomes')
             ?.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.getElementById('homesTab')?.click();

@@ -1,0 +1,8 @@
+{
+  "homes": [
+    {
+      "source": "/:title",
+      "destination": "/index.html"
+    }
+  ]
+}
