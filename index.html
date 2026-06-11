@@ -30,6 +30,11 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
+    <meta name="geo.region" content="VN-SG">
+    <meta name="geo.placename" content="Bình Thạnh">
+    <meta name="geo.position" content="10.794133967343058;106.6956598048673">
+    <meta name="ICBM" content="10.794133967343058,106.6956598048673">
+
     <!-- Twitter/X -->
     <meta name="twitter:card" content="summary_large_image">
 
@@ -40,17 +45,25 @@
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
   "name": "Homestay 3 Cây Non",
-  "url": "https://homestay3caynon.vercel.app/",
-  "image": "https://homestay3caynon.vercel.app/cover.jpg",
+  "url": "https://homestay3caynon.vn/",
+  "image": "https://homestay3caynon.vn/cover.jpg",
   "telephone": "+84902932808",
+
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "23/5/18 Lê Văn Duyệt",
-    "addressLocality": "Bình Thạnh",
-    "addressRegion": "Hồ Chí Minh",
+    "addressLocality": "Phường Gia Định",
+    "addressRegion": "TP. Hồ Chí Minh",
     "postalCode": "700000",
     "addressCountry": "VN"
   },
+
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 10.794134,
+    "longitude": 106.695660
+  },
+
   "sameAs": [
     "https://share.google/gg4BQST8rETS06GNK"
   ]
@@ -983,9 +996,9 @@
             align-items: center;
             gap: 18px;
 
-            padding: 18px 20px;
+            padding: 0px 20px;
 
-            border-top: 1px solid rgba(255, 255, 255, .15);
+            /* border-top: 1px solid rgba(255, 255, 255, .15); */
         }
 
         .footer-social a {
@@ -1151,10 +1164,10 @@
 
             gap: 18px;
 
-            padding: 20px;
+            /* padding: 20px; */
 
-            border-top:
-                1px solid rgba(255, 255, 255, .15);
+            /* border-top:
+                1px solid rgba(255, 255, 255, .15); */
         }
 
         .footer-social a {
@@ -1264,7 +1277,6 @@
 
             gap: 12px;
 
-            margin-top: 20px;
         }
 
         .footer-social a {
@@ -1351,10 +1363,10 @@
             justify-content: center;
             gap: 14px;
 
-            padding: 20px;
+            /* padding: 20px; */
 
-            border-top:
-                1px solid rgba(255, 255, 255, .15);
+            /* border-top:
+                1px solid rgba(255, 255, 255, .15); */
         }
 
         .footer-social a {
@@ -1474,7 +1486,7 @@
         }
 
         .footer-brand h2 {
-            margin: 12px 0 8px;
+            /* margin: 12px 0 8px; */
             font-size: 22px;
         }
 
@@ -1510,7 +1522,7 @@
         .map-wrap iframe {
 
             width: 100%;
-            height: 280px;
+            height: 200px;
 
             border: none;
 
@@ -1744,7 +1756,7 @@
 
         /* Desktop */
         .map-wrap iframe {
-            height: 280px !important;
+            height: 200px !important;
         }
 
         .map-wrap iframe {
@@ -4164,6 +4176,803 @@
                 background: rgba(0, 0, 0, .25) !important;
             }
         }
+
+        .highlights-section {
+            padding: 40px 20px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-heading h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #777;
+            font-size: 16px;
+        }
+
+        .highlight-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 24px;
+        }
+
+        .highlight-card {
+
+            background: #fff;
+
+            border-radius: 24px;
+
+            padding: 32px 24px;
+
+            text-align: center;
+
+            transition: .3s;
+
+            border: 1px solid #f1f1f1;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .05);
+        }
+
+        .highlight-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, .08);
+        }
+
+        .highlight-card i {
+
+            width: 70px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            font-size: 28px;
+
+            color: #875845;
+
+            background:
+                linear-gradient(135deg,
+                    #f7ebe6,
+                    #fff8f5);
+        }
+
+        .highlight-card h3 {
+
+            margin-top: 18px;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #222;
+        }
+
+        .highlight-card span {
+
+            display: block;
+
+            margin-top: 8px;
+
+            color: #777;
+
+            line-height: 1.6;
+        }
+
+        /* MOBILE */
+        @media (max-width:768px) {
+
+            .highlights-section {
+                padding: 28px 14px;
+            }
+
+            .section-heading {
+                margin-bottom: 24px;
+            }
+
+            .section-heading h2 {
+                font-size: 24px;
+            }
+
+            .section-heading p {
+                font-size: 14px;
+            }
+
+            .highlight-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 10px;
+            }
+
+            .highlight-card {
+
+                padding: 14px 8px;
+
+                border-radius: 18px;
+            }
+
+            .highlight-card i {
+
+                width: 48px;
+                height: 48px;
+
+                font-size: 18px;
+            }
+
+            .highlight-card h3 {
+
+                margin-top: 10px;
+
+                font-size: 12px;
+
+                line-height: 1.4;
+            }
+
+            .highlight-card span {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width:380px) and (max-width:520px) {
+
+            .logo-text strong {
+                font-size: 22px
+            }
+
+            .highlights-section {
+                padding: 15px 10px;
+            }
+
+            .section-heading {
+                margin-bottom: 18px;
+            }
+
+            .section-heading h2 {
+                font-size: 20px;
+            }
+
+            .section-heading p {
+                display: none;
+            }
+
+            .highlight-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 6px;
+            }
+
+            .highlight-card {
+
+                padding: 10px 4px;
+
+                border-radius: 14px;
+
+                box-shadow:
+                    0 4px 12px rgba(0, 0, 0, .05);
+            }
+
+            .highlight-card i {
+
+                width: 36px;
+                height: 36px;
+
+                font-size: 15px;
+            }
+
+            .highlight-card h3 {
+
+                margin-top: 6px;
+
+                font-size: 10px;
+
+                font-weight: 600;
+
+                line-height: 1.3;
+            }
+
+            .highlight-card span {
+                display: none;
+            }
+        }
+
+        /* ========================================
+   FOOTER FINAL AIRBNB CLEAN
+======================================== */
+
+        .footer {
+
+            background:
+                linear-gradient(135deg,
+                    #8e756c 0%,
+                    #b99d9d 100%);
+
+            color: #fff;
+
+            padding:
+                30px 24px 24px;
+
+            overflow: hidden;
+        }
+
+        /* ========================================
+   GRID
+======================================== */
+
+        .footer-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(240px, 1.15fr) minmax(200px, 1fr) minmax(200px, 1fr) minmax(320px, 1.25fr);
+
+            gap: 42px;
+
+            align-items: flex-start;
+        }
+
+        /* ========================================
+   COMMON
+======================================== */
+
+        .footer-col h3 {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            margin-bottom: 24px;
+
+            letter-spacing: -0.3px;
+        }
+
+        .footer a {
+
+            color: #fff;
+
+            text-decoration: none;
+        }
+
+        /* ========================================
+   BRAND
+======================================== */
+
+        .footer-brand {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .footer-logo {
+
+            width: 112px !important;
+
+            height: 112px !important;
+
+            border-radius: 28px;
+
+            object-fit: cover;
+
+            margin-bottom: 22px;
+
+            padding: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                0 10px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        .footer-brand h2 {
+
+            font-size: 24px;
+
+            line-height: 1.2;
+
+            font-weight: 700;
+
+            margin-bottom: 16px;
+
+            letter-spacing: -0.8px;
+
+            max-width: 260px;
+        }
+
+        .footer-desc {
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+            opacity: .92;
+
+            margin-bottom: 24px;
+
+            max-width: 300px;
+        }
+
+        .footer-rating {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            width: fit-content;
+
+            padding:
+                11px 16px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 22px;
+        }
+
+        .footer-mini-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        .footer-mini-info span {
+
+            font-size: 14px;
+
+            opacity: .95;
+        }
+
+        /* ========================================
+   LINKS
+======================================== */
+
+        .footer-links {
+
+            list-style: none;
+
+            padding: 0;
+
+            margin: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .footer-links li {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 13px;
+
+            font-size: 15px;
+
+            line-height: 1.75;
+
+            opacity: .96;
+        }
+
+        .footer-links i {
+
+            width: 16px;
+
+            margin-top: 5px;
+
+            color: #ffe0b2;
+
+            flex-shrink: 0;
+        }
+
+        /* ========================================
+   MAP
+======================================== */
+
+        .footer-map-col {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .map-wrap {
+
+            overflow: hidden;
+
+            border-radius: 26px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.10);
+        }
+
+        .map-wrap iframe {
+
+            width: 100%;
+
+            height: 200px;
+
+            border: none;
+
+            display: block;
+        }
+
+        .footer-map-btn {
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                15px 18px;
+
+            border-radius: 16px;
+
+            background: #fff;
+
+            color: #222 !important;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            transition: .25s;
+        }
+
+        .footer-map-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 22px rgba(0, 0, 0, 0.10);
+        }
+
+        /* ========================================
+   BOTTOM
+======================================== */
+
+        .footer-bottom {
+
+            margin-top: 30px;
+
+            padding-top: 24px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+        /* ========================================
+   SOCIAL
+======================================== */
+
+        .footer-social {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .footer-social a {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            transition: .25s;
+        }
+
+        .footer-social a:hover {
+
+            transform:
+                translateY(-3px);
+
+            background:
+                rgba(255, 255, 255, 0.16);
+        }
+
+        .footer-social i {
+
+            font-size: 17px;
+        }
+
+        .footer-bottom p {
+
+            font-size: 14px;
+
+            opacity: .84;
+
+            text-align: center;
+        }
+
+        /* ========================================
+   TABLET
+======================================== */
+
+        @media (max-width: 1100px) {
+
+            .footer-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 34px;
+            }
+
+            .footer-brand h2 {
+
+                font-size: 28px;
+            }
+
+            .map-wrap iframe {
+
+                height: 250px;
+            }
+        }
+
+        /* ========================================
+   MOBILE
+======================================== */
+
+        @media (max-width: 768px) {
+
+            .footer {
+
+                padding:
+                    46px 16px 22px;
+            }
+
+            .footer-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 24px;
+            }
+
+            .footer-col {
+
+                background:
+                    rgba(255, 255, 255, 0.06);
+
+                border:
+                    1px solid rgba(255, 255, 255, 0.08);
+
+                border-radius: 22px;
+
+                padding: 20px;
+            }
+
+            .footer-logo {
+
+                width: 86px;
+
+                height: 86px;
+
+                border-radius: 22px;
+            }
+
+            .footer-brand h2 {
+
+                font-size: 24px;
+
+                max-width: 100%;
+            }
+
+            .footer-desc {
+
+                font-size: 14px;
+
+                line-height: 1.7;
+
+                max-width: 100%;
+            }
+
+            .footer-col h3 {
+
+                font-size: 19px;
+
+                margin-bottom: 18px;
+            }
+
+            .footer-links {
+
+                gap: 16px;
+            }
+
+            .footer-links li {
+
+                font-size: 14px;
+            }
+
+            .footer-rating {
+
+                font-size: 13px;
+
+                padding:
+                    10px 14px;
+            }
+
+            .footer-mini-info span {
+
+                font-size: 13px;
+            }
+
+            .map-wrap {
+
+                border-radius: 20px;
+            }
+
+            .map-wrap iframe {
+
+                height: 220px;
+            }
+
+            .footer-map-btn {
+
+                font-size: 14px;
+
+                padding: 14px;
+            }
+
+            .footer-social a {
+
+                width: 46px;
+
+                height: 46px;
+
+                border-radius: 14px;
+            }
+
+            .footer-bottom p {
+
+                font-size: 13px;
+            }
+        }
+
+        /* ========================================
+   SMALL MOBILE
+======================================== */
+
+        @media (max-width: 520px) {
+
+            .footer {
+
+                padding:
+                    40px 14px 20px;
+            }
+
+            .footer-grid {
+
+                gap: 20px;
+            }
+
+            .footer-col {
+
+                padding: 18px;
+            }
+
+            .footer-logo {
+
+                width: 74px;
+
+                height: 74px;
+
+                border-radius: 20px;
+            }
+
+            .footer-brand h2 {
+
+                font-size: 22px;
+            }
+
+            .footer-desc {
+
+                font-size: 13px;
+            }
+
+            .footer-links li {
+
+                font-size: 13px;
+
+                line-height: 1.65;
+            }
+
+            .map-wrap iframe {
+
+                height: 200px;
+            }
+
+            .footer-social {
+
+                gap: 10px;
+            }
+
+            .footer-social a {
+
+                width: 42px;
+
+                height: 42px;
+            }
+
+            .footer-social i {
+
+                font-size: 15px;
+            }
+
+            .footer-bottom p {
+
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -4204,6 +5013,56 @@
             <!-- <a href="#homes" class="hero-btn">
                 Khám phá các Home
             </a> -->
+
+        </div>
+
+    </section>
+
+    <section class="highlights-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+                <h2>Vì sao khách chọn Homestay 3 Cây Non?</h2>
+                <p>
+                    Không gian riêng tư, tiện nghi đầy đủ
+                    cho kỳ nghỉ thư giãn giữa lòng TP.HCM.
+                </p>
+            </div>
+
+            <div class="highlight-grid">
+
+                <div class="highlight-card">
+                    <i class="fas fa-location-dot"></i>
+                    <h3>Gần Quận 1</h3>
+                    <span>Chỉ 5 phút di chuyển</span>
+                </div>
+
+                <div class="highlight-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Netflix Premium</h3>
+                    <span>Xem miễn phí không giới hạn</span>
+                </div>
+
+                <div class="highlight-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Máy Chiếu Riêng</h3>
+                    <span>Trải nghiệm như rạp phim</span>
+                </div>
+
+                <div class="highlight-card">
+                    <i class="fas fa-bath"></i>
+                    <h3>Bồn Tắm Riêng</h3>
+                    <span>Thư giãn sau ngày dài</span>
+                </div>
+
+                <div class="highlight-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Check-in Linh Hoạt</h3>
+                    <span>Không lo đến muộn</span>
+                </div>
+
+            </div>
 
         </div>
 
@@ -4380,84 +5239,155 @@
 
         <div class="container footer-grid">
 
-            <!-- Cột 1 -->
-            <div class="footer-brand">
+            <!-- COLUMN 1 -->
+            <section class="footer-col footer-brand">
 
-                <img src="/logo3caynon.png" class="footer-logo">
+                <!-- <img src="/logo3caynon.png" alt="Homestay 3 Cây Non" class="footer-logo"> -->
 
-                <p>
+                <h2>
                     Homestay 3 Cây Non
-                </p>
+                </h2>
 
-                <p>
+                <p class="footer-desc">
                     Không gian nghỉ dưỡng ấm cúng giữa lòng Sài Gòn.
+                    Phù hợp cho nghỉ dưỡng, công tác và staycation.
                 </p>
 
                 <div class="footer-rating">
-                    ⭐⭐⭐⭐⭐ 4.9/5
-
-                    <span>1000+ lượt khách lưu trú</span>
-                </div>
-            </div>
-
-            <div class="footer-info-row">
-
-                <div>
-                    <h3>Liên hệ</h3>
-
-                    <p>📍 23/5/18 Lê Văn Duyệt</p>
-                    <p>Gia Định, Hồ Chí Minh</p>
-                    <p>📞 0902 932 808</p>
+                    ⭐ 4.9/5 • 1000+ lượt khách
                 </div>
 
-                <div>
-                    <h3>Thông tin</h3>
-
-                    <p>🕑 Check-in và Check-out linh hoạt</p>
-                    <p>💬 Hỗ trợ 24/7</p>
-                    <p>🛡️ Cam kết bảo mật</p>
+                <div class="footer-mini-info">
+                    <span>✔ Hỗ trợ 24/7</span>
+                    <span>✔ Check-in linh hoạt</span>
                 </div>
 
-            </div>
+            </section>
 
-            <!-- Cột 4 -->
-            <div>
+            <!-- COLUMN 2 -->
+            <section class="footer-col">
+
+                <h3>Liên hệ</h3>
+
+                <ul class="footer-links">
+
+                    <li>
+
+                        <i class="fas fa-location-dot"></i>
+
+                        <address class="footer-address">
+
+                            23/5/18 Lê Văn Duyệt,
+                            Phường Gia Định,
+                            TP.HCM
+
+                        </address>
+
+                    </li>
+
+                    <li>
+                        <i class="fas fa-phone"></i>
+
+                        <a href="tel:0902932808">
+                            0902 932 808
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-envelope"></i>
+
+                        <a href="mailto:contact@3caynon.vn">
+                            info.homestay3caynon@gmail.com
+                        </a>
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <!-- COLUMN 3 -->
+            <section class="footer-col">
+
+                <h3>Thông tin</h3>
+
+                <ul class="footer-links">
+
+                    <li>
+                        <i class="fas fa-headset"></i>
+                        Hỗ trợ khách hàng 24/7
+                    </li>
+
+                    <li>
+                        <i class="fas fa-shield-heart"></i>
+                        Cam kết bảo mật thông tin
+                    </li>
+
+                    <li>
+                        <i class="fas fa-calendar-check"></i>
+                        Đặt phòng nhanh chóng
+                    </li>
+
+                    <li>
+                        <i class="fas fa-star"></i>
+                        Homestay được đánh giá cao
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <!-- COLUMN 4 -->
+            <section class="footer-col footer-map-col">
 
                 <h3>Vị trí</h3>
 
                 <div class="map-wrap">
 
-                    <iframe
+                    <iframe title="Bản đồ Homestay 3 Cây Non"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2247066609243!2d106.69308477443515!3d10.794094389355738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175297d6a3ba59d%3A0x1b2a6d8841507493!2sHomestay%203%20C%C3%A2y%20Non!5e0!3m2!1svi!2s!4v1780171064984!5m2!1svi!2s"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        loading="lazy" allowfullscreen>
+                    </iframe>
 
                 </div>
 
+                <a class="footer-map-btn" href="https://maps.google.com/?q=Homestay+3+Cây+Non" target="_blank">
+
+                    Xem Google Maps
+
+                </a>
+
+            </section>
+
+        </div>
+
+        <!-- bottom -->
+        <div class="footer-bottom">
+
+            <div class="footer-social">
+
+                <a href="#">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+
             </div>
 
-        </div>
-
-        <div class="footer-social">
-
-            <a href="https://www.facebook.com/homestay3caynon" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-
-            <a href="https://www.instagram.com/homestay3caynon" target="_blank">
-                <i class="fab fa-instagram"></i>
-            </a>
-
-            <a href="https://www.tiktok.com/@homestay3caynon" target="_blank">
-                <i class="fab fa-tiktok"></i>
-            </a>
+            <p>
+                © 2026 Homestay 3 Cây Non • All rights reserved
+            </p>
 
         </div>
 
-        <div class="copyright">
-            © 2026 Homestay 3 Cây Non
-        </div>
     </footer>
+
+
     <div class="floating-contact">
 
         <a href="https://zalo.me/0902932808" target="_blank" class="zalo-btn">
