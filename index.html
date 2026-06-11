@@ -6069,11 +6069,11 @@
         const daysPerPage = 7;
         let rooms = [];
 
+
         async function renderRooms() {
 
             const grid =
                 document.getElementById("roomGrid");
-
 
             grid.innerHTML = "";
 
@@ -6083,94 +6083,100 @@
 
                 grid.innerHTML += `
 
-    <div class="room-card"
-         onclick="location.href='/${home.title}'">
+        <div class="room-card">
 
-    
-        <div class="room-image-wrap">
+            <!-- IMAGE -->
+            <a
+                href="/${home.title}"
+                class="room-image-wrap">
 
-            <img
-                src="${home.coverImage}"
-                alt="${home.name || home.title}"
-                class="room-image"
-                loading="lazy">
+                <img
+                    src="${home.coverImage}"
+                    alt="${home.name || home.title}"
+                    class="room-image"
+                    loading="lazy">
 
-            <div class="room-badge">
-                Được yêu thích
-            </div>
+                <div class="room-badge">
+                    Được yêu thích
+                </div>
 
-        </div>
+            </a>
 
-    
-        <div class="room-content">
+            <!-- CONTENT -->
+            <div class="room-content">
 
-       
-            <div class="room-top">
+                <!-- TOP -->
+                <div class="room-top">
 
-                <div>
+                    <div>
 
-                    <h3 class="room-title">
-                        ${home.name || home.title || key}
-                    </h3>
+                        <h3 class="room-title">
+                            ${home.name || home.title || key}
+                        </h3>
+
+                    </div>
+
+                    <div class="room-rating">
+                        ⭐ 4.9
+                    </div>
 
                 </div>
 
-                <div class="room-rating">
-                    ⭐ 4.9
+                <!-- FEATURES -->
+                <div class="room-features">
+
+                    <span>🛏 2-4 khách</span>
+
+                    <span>📶 Wifi</span>
+
+                    <span>❄ Máy lạnh</span>
+
                 </div>
 
-            </div>
+                <!-- DESC -->
+                <p class="room-desc">
+                    ${home.description || "Không gian nghỉ dưỡng ấm cúng và hiện đại."}
+                </p>
 
-   
-            <div class="room-features">
+                <!-- BOTTOM -->
+                <div class="room-bottom">
 
-                <span>🛏 2-4 khách</span>
+                    <div class="room-price">
 
-                <span>📶 Wifi</span>
+                        <span class="price">
 
-                <span>❄ Máy lạnh</span>
-
-            </div>
-
-      
-            <p class="room-desc">
-                ${home.description || "Không gian nghỉ dưỡng ấm cúng và hiện đại."}
-            </p>
-
-      
-            <div class="room-bottom">
-
-                <div class="room-price">
-
-                 
-
-<span class="price">
-    ${Number(home.pricing?.night?.[12] || 799000)
-                        .toLocaleString("vi-VN")
+                            ${Number(
+                    home.pricing?.night?.[12]
+                    || 799000
+                ).toLocaleString("vi-VN")
                     }đ
-</span>
 
+                        </span>
 
+                        <span class="night">
+                            / đêm
+                        </span>
 
+                    </div>
 
+                    <a
+                        href="/${home.title}"
+                        class="room-btn">
 
-                    <span class="night">
-                        / đêm
-                    </span>
+                        Xem phòng
+
+                    </a>
 
                 </div>
-
-                <button class="room-btn">
-                    Xem phòng
-                </button>
 
             </div>
 
         </div>
 
-    </div> `;
+        `;
             }
         }
+
 
         let bookings = [];
         let currentRoom = "HOME1";
@@ -6873,6 +6879,14 @@ ${booking ? '●' : ''}
         loadWebsiteBlogs();
 
         loadWebsiteReviews();
+
+        window.switchRoom = (roomId) => {
+
+            currentRoom = roomId;
+            renderTabs();
+            renderCalendar();
+        }
+
         window.openImageModal = function (url) {
 
             const modal =
@@ -7258,33 +7272,6 @@ ${booking ? '●' : ''}
                 window.currentGallery[currentImageIndex];
 
             modal.style.display = "flex";
-        };
-
-        window.nextImg = function (e) {
-
-            if (e) e.stopPropagation();
-
-            currentImageIndex++;
-
-            if (currentImageIndex >= currentGallery.length)
-                currentImageIndex = 0;
-
-            document.getElementById("modalImg").src =
-                currentGallery[currentImageIndex];
-        };
-
-        window.prevImg = function (e) {
-
-            if (e) e.stopPropagation();
-
-            currentImageIndex--;
-
-            if (currentImageIndex < 0)
-                currentImageIndex =
-                    currentGallery.length - 1;
-
-            document.getElementById("modalImg").src =
-                currentGallery[currentImageIndex];
         };
 
         window.closeImg = function (e) {
