@@ -7588,7 +7588,7 @@ ${booking ? '●' : ''}
                 e.preventDefault();
                 document.getElementById('calendarTab')?.click();
             });
-        load();
+        // load();
 
         function maskPhone(phone) {
 
@@ -8711,8 +8711,67 @@ ${booking ? '●' : ''}
             }
         );
 
-        loadStories();
+        function showLoading() {
+            let el = document.getElementById("pageLoader");
 
+            if (!el) {
+                el = document.createElement("div");
+                el.id = "pageLoader";
+                el.style.cssText = `
+      position:fixed;
+      inset:0;
+      background:#111;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      z-index:999999;
+    `;
+                el.innerHTML = "Đang tải...";
+                document.body.appendChild(el);
+            }
+
+            el.style.display = "flex";
+        }
+
+        function hideLoading() {
+            const el = document.getElementById("pageLoader");
+            if (el) {
+                el.style.display = "none";
+            }
+        }
+
+        async function initPage() {
+            showLoading(); // bật loading trước
+
+            try {
+                await Promise.all([
+                    loadStories(),
+                    loadRooms(),
+                    loadWebsiteReviews()
+                ]);
+            } catch (err) {
+                console.error("Load error:", err);
+            }
+
+            hideLoading(); // tắt loading khi tất cả xong
+        }
+
+        async function loadRooms() {
+            if (!homes) return;
+
+            rooms = Object.entries(homes).map(([id, home]) => ({
+                id,
+                name: home.title || home.name || id
+            }));
+
+            currentRoom = rooms[0]?.id;
+
+            renderRooms();
+            renderTabs();
+            renderCalendar();
+        }
 
         // XÓA CÁI NÀY
         // =========================
@@ -8751,44 +8810,8 @@ ${booking ? '●' : ''}
         // =========================
         // ⚠️ KHÔNG dùng outerWidth - innerWidth nữa vì gây false positive trên mobile
 
-        (function () {
-            let devtoolsOpen = false;
-
-            const threshold = 160;
-
-            function detectDevTools() {
-                const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
-                const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-
-                // chỉ check nhẹ + tránh mobile false trigger
-                const isDesktop = !/Android|iPhone|iPad/i.test(navigator.userAgent);
-
-                if (isDesktop && (widthDiff > threshold || heightDiff > threshold)) {
-                    if (!devtoolsOpen) {
-                        devtoolsOpen = true;
-
-                        document.body.innerHTML = `
-          <div style="
-            height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:22px;
-            font-weight:700;
-            background:#111;
-            color:white;
-            text-align:center;
-            padding:20px;
-          ">
-            Developer tools detected
-          </div>
-        `;
-                    }
-                }
-            }
-
-            setInterval(detectDevTools, 1000);
-        })();   </script>
+        document.addEventListener("DOMContentLoaded", initPage);
+    </script>
     <div id="imgModal" class="image-modal" onclick="closeImg(event)">
 
         <span class="close" onclick="closeImg(event)">
