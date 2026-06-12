@@ -6451,23 +6451,47 @@
 
         /* mobile tối ưu */
         @media (max-width: 768px) {
+
             .story-modal {
-                padding: 10px;
+                padding: 0;
             }
 
             .story-viewer {
                 width: 100%;
-                height: 100%;
+                height: 100vh;
+                max-width: 100%;
                 border-radius: 0;
             }
 
             .story-image {
-                max-height: 60vh;
-                object-fit: cover;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center center;
+                padding: 60px 10px 90px;
+            }
+
+            .story-overlay {
+                padding: 16px;
             }
 
             .story-content {
                 font-size: 14px;
+            }
+
+            .story-nav {
+                background: rgba(0, 0, 0, .35);
+                width: 44px;
+                height: 44px;
+                z-index: 99999;
+            }
+
+            .story-prev-btn {
+                left: 8px;
+            }
+
+            .story-next-btn {
+                right: 8px;
             }
         }
     </style>
@@ -8352,129 +8376,69 @@ ${booking ? '●' : ''}
                     });
                 })
             );
-        } function renderStories() {
+        }
+        function renderStories() {
 
-            const bar =
-                document.getElementById(
-                    "storyBar"
-                );
+            const bar = document.getElementById("storyBar");
 
             if (!bar) return;
+
+            if (!Array.isArray(stories)) {
+                stories = [];
+            }
 
             // =========================
             // GROUP BY ROOM
             // =========================
-
             const grouped = {};
 
             stories.forEach(story => {
 
-                const room =
-                    story.room || "Homestay";
+                if (!story) return;
+
+                const room = story.room || "Homestay";
 
                 if (!grouped[room]) {
-
                     grouped[room] = [];
                 }
 
                 grouped[room].push(story);
             });
 
-            const rooms =
-                Object.keys(grouped)
-                    .sort((a, b) => {
-
-                        const numA =
-                            Number(
-                                a.replace(/\D/g, "")
-                            );
-
-                        const numB =
-                            Number(
-                                b.replace(/\D/g, "")
-                            );
-
-                        return numA - numB;
-                    });
+            const rooms = Object.keys(grouped);
 
             // =========================
             // RENDER
             // =========================
+            bar.innerHTML = rooms.map(room => {
 
-            bar.innerHTML =
-                rooms.map(room => {
+                const firstStory = grouped[room]?.[0];
 
-                    const firstStory =
-                        grouped[room][0];
+                if (!firstStory) return "";
 
-                    return `
+                return `
+            <div class="story-item"
+                onclick="openStoryGroup('${room}')">
 
-                <div
-                    class="story-item"
-                    onclick="openStoryGroup('${room}')">
+                <div class="story-avatar">
 
-                    <div class="story-avatar">
-
-                        <img
-
-    loading="lazy"
-
-    decoding="async"
-
-    src="${optimizeCloudinary(
-                        firstStory.image
-                    )}"
-
-    alt="${room}">
-
-                    </div>
-
-                    <div class="story-name">
-
-                        ${room}
-
-                    </div>
+                    <img
+                        loading="lazy"
+                        decoding="async"
+                        src="${optimizeCloudinary(firstStory.image || '')}"
+                        alt="${room}"
+                    >
 
                 </div>
 
-            `;
-                }).join("");
+                <div class="story-name">
+                    ${room}
+                </div>
+
+            </div>
+        `;
+            }).join("");
         }
-        
-        window.openStory = function (index) {
-
-            const story = stories[index];
-            if (!story) return;
-
-            document.getElementById("storyModal").style.display = "flex";
-
-            // image
-            document.getElementById("storyImage").src =
-                optimizeCloudinary(story.image);
-
-            // content
-            document.getElementById("storyContent").innerText =
-                story.content || "";
-
-            // audio
-            const audio = document.getElementById("storyAudio");
-
-            if (story.audio) {
-                audio.src = story.audio;
-                audio.currentTime = 0;
-
-                // autoplay (có fallback)
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        console.log("Browser block autoplay → cần user interaction");
-                    });
-                }
-            } else {
-                audio.pause();
-                audio.removeAttribute("src");
-            }
-        };
         window.closeStory = function () {
 
             document.getElementById("storyModal").style.display = "none";
@@ -8570,7 +8534,8 @@ ${booking ? '●' : ''}
             // =========================
 
             return `${years} năm trước`;
-        } window.openStoryGroup = function (room) {
+        }
+        window.openStoryGroup = function (room) {
 
             currentStoryGroup =
                 stories.filter(
@@ -8590,78 +8555,42 @@ ${booking ? '●' : ''}
         function openCurrentStory() {
 
             const story =
-                currentStoryGroup[
-                currentStoryIndex
-                ];
+                currentStoryGroup[currentStoryIndex];
 
             if (!story) return;
 
-            document.getElementById(
-                "storyModal"
-            ).style.display = "flex";
+            document.getElementById("storyModal").style.display = "flex";
 
-            // =========================
-            // MAIN IMAGE
-            // =========================
+            document.getElementById("storyImage").src =
+                optimizeCloudinary(story.image || "");
 
-            document.getElementById(
-                "storyImage"
-            ).src =
+            document.getElementById("storyBackground").style.backgroundImage =
+                `url('${optimizeCloudinary(story.image || "")}')`;
 
-                optimizeCloudinary(
-                    story.image
-                );
+            document.getElementById("storyAuthor").textContent =
+                story.author || story.room || "Homestay";
 
-            // =========================
-            // BLUR BACKGROUND
-            // =========================
+            document.getElementById("storyContent").textContent =
+                story.content || "";
 
-            document.getElementById(
-                "storyBackground"
-            ).style.backgroundImage =
+            document.getElementById("storyTime").textContent =
+                formatStoryTime(story.createdAt);
 
-                `url(${optimizeCloudinary(
-                    story.image
-                )
-                })`;
+            const audio =
+                document.getElementById("storyAudio");
 
-            // =========================
-            // AUTHOR
-            // =========================
+            if (story.music) {
 
-            document.getElementById(
-                "storyAuthor"
-            ).innerHTML = `
+                audio.src = story.music;
+                audio.currentTime = 0;
 
-        👤 ${story.author || "Admin"}
+                audio.play().catch(() => { });
 
-        ${story.room
-                    ? `🏡 ${story.room}`
-                    : ""}
-    `;
+            } else {
 
-            // =========================
-            // TIME
-            // =========================
-
-            document.getElementById(
-                "storyTime"
-            ).innerText =
-                formatStoryTime(
-                    story.createdAt
-                );
-
-            // =========================
-            // CONTENT
-            // =========================
-
-            document.getElementById(
-                "storyContent"
-            ).innerHTML = `
-
-        ✨ ${story.content || ""}
-
-    `;
+                audio.pause();
+                audio.removeAttribute("src");
+            }
         }
         window.nextStory = function () {
 
@@ -8698,10 +8627,9 @@ ${booking ? '●' : ''}
 
             return url.replace(
                 "/upload/",
-                "/upload/f_auto,q_auto,w_300/"
+                "/upload/f_auto,q_auto,w_1200/"
             );
         }
-
         window.addEventListener(
             "load",
             () => {
@@ -8784,37 +8712,37 @@ ${booking ? '●' : ''}
             renderCalendar();
         }
 
-        // XÓA CÁI NÀY
-        // =========================
-        // DISABLE RIGHT CLICK
-        // =========================
+        // // XÓA CÁI NÀY
+        // // =========================
+        // // DISABLE RIGHT CLICK
+        // // =========================
 
-        document.addEventListener("contextmenu", function (e) {
-            e.preventDefault();
-        });
+        // document.addEventListener("contextmenu", function (e) {
+        //     e.preventDefault();
+        // });
 
-        // =========================
-        // BLOCK SHORTCUT KEYS
-        // =========================
+        // // =========================
+        // // BLOCK SHORTCUT KEYS
+        // // =========================
 
-        document.addEventListener("keydown", function (e) {
-            const key = e.key.toLowerCase();
+        // document.addEventListener("keydown", function (e) {
+        //     const key = e.key.toLowerCase();
 
-            // F12
-            if (e.key === "F12") {
-                e.preventDefault();
-            }
+        //     // F12
+        //     if (e.key === "F12") {
+        //         e.preventDefault();
+        //     }
 
-            // CTRL + SHIFT + I / J
-            if (e.ctrlKey && e.shiftKey && (key === "i" || key === "j")) {
-                e.preventDefault();
-            }
+        //     // CTRL + SHIFT + I / J
+        //     if (e.ctrlKey && e.shiftKey && (key === "i" || key === "j")) {
+        //         e.preventDefault();
+        //     }
 
-            // CTRL + U
-            if (e.ctrlKey && key === "u") {
-                e.preventDefault();
-            }
-        });
+        //     // CTRL + U
+        //     if (e.ctrlKey && key === "u") {
+        //         e.preventDefault();
+        //     }
+        // });
 
         // =========================
         // DEVTOOLS DETECT (SAFE VERSION)
