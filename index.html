@@ -6512,6 +6512,10 @@
             }
 
         }
+
+        .story-image {
+            transition: transform 0.25s ease;
+        }
     </style>
 </head>
 
@@ -8401,68 +8405,49 @@ ${booking ? '●' : ''}
             );
         }
         function renderStories() {
-
             const bar = document.getElementById("storyBar");
-
             if (!bar) return;
 
-            if (!Array.isArray(stories)) {
-                stories = [];
-            }
+            bar.innerHTML = "";
 
-            // =========================
-            // GROUP BY ROOM
-            // =========================
             const grouped = {};
 
             stories.forEach(story => {
-
-                if (!story) return;
-
-                const room = story.room || "Homestay";
-
-                if (!grouped[room]) {
-                    grouped[room] = [];
-                }
-
-                grouped[room].push(story);
+                const room = story?.room || "Homestay";
+                (grouped[room] ||= []).push(story);
             });
 
             const rooms = Object.keys(grouped);
 
-            // =========================
-            // RENDER
-            // =========================
-            bar.innerHTML = "";
-            bar.innerHTML = rooms.map(room => {
+            let i = 0;
 
-                const firstStory = grouped[room]?.[0];
+            function renderChunk() {
+                const slice = rooms.slice(i, i + 10);
 
-                if (!firstStory) return "";
+                bar.innerHTML += slice.map(room => {
+                    const first = grouped[room]?.[0];
+                    if (!first) return "";
 
-                return `
-            <div class="story-item"
-                onclick="openStoryGroup('${room}')">
-
-                <div class="story-avatar">
-
-                    <img
-                        loading="lazy"
-                        decoding="async"
-                        src="${optimizeCloudinary(firstStory.image || '')}"
-                        alt="${room}"
-                    >
-
+                    return `
+                <div class="story-item" onclick="openStoryGroup('${room}')">
+                    <div class="story-avatar">
+                        <img src="${optimizeCloudinary(first.image || '')}">
+                    </div>
+                    <div class="story-name">${room}</div>
                 </div>
+            `;
+                }).join("");
 
-                <div class="story-name">
-                    ${room}
-                </div>
+                i += 10;
 
-            </div>
-        `;
-            }).join("");
+                if (i < rooms.length) {
+                    requestAnimationFrame(renderChunk);
+                }
+            }
+
+            renderChunk();
         }
+
         window.closeStory = function () {
 
             document.getElementById("storyModal").style.display = "none";
@@ -8704,11 +8689,14 @@ ${booking ? '●' : ''}
             }
         }
 
+        function nextFrame() {
+            return new Promise(requestAnimationFrame);
+        }
+
         async function initPage() {
             showLoading();
 
             try {
-                // 1. load data song song (tăng tốc)
                 await Promise.all([
                     load(),
                     loadStories(),
@@ -8716,18 +8704,16 @@ ${booking ? '●' : ''}
                     loadWebsiteReviews()
                 ]);
 
-                // 2. render UI SAU khi data xong
                 renderStories();
 
-                // 3. chờ browser paint frame
-                await new Promise(requestAnimationFrame);
-                await new Promise(requestAnimationFrame);
+                // 🔥 QUAN TRỌNG: ép browser render 2 lần
+                await nextFrame();
+                await nextFrame();
 
             } catch (err) {
                 console.error(err);
             }
-document.body.offsetHeight;
-            // 4. chỉ hide khi UI đã render xong frame
+
             hideLoading();
         }
 
@@ -8744,6 +8730,79 @@ document.body.offsetHeight;
             renderRooms();
             renderTabs();
             renderCalendar();
+        }
+
+
+        // =========================
+        // SWIPE CONTROL (IMPORTANT)
+        // =========================
+        let startX = 0;
+        let endX = 0;
+        let isSwiping = false;
+
+        const storyViewer = document.querySelector(".story-viewer");
+
+        // touch start
+        storyViewer.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isSwiping = false;
+        });
+
+        // detect move
+        storyViewer.addEventListener("touchmove", () => {
+            isSwiping = true;
+        });
+
+        // touch end => quyết định swipe
+        storyViewer.addEventListener("touchend", (e) => {
+
+            endX = e.changedTouches[0].clientX;
+
+            const diff = startX - endX;
+
+            if (Math.abs(diff) < 50) return; // ignore swipe nhỏ
+
+            if (diff > 0) {
+                animateSwipe("next");
+                nextStory();
+            } else {
+                animateSwipe("prev");
+                prevStory();
+            }
+        });
+
+        // =========================
+        // TAP LEFT / RIGHT (like IG)
+        // =========================
+        storyViewer.addEventListener("click", (e) => {
+
+            if (isSwiping) return;
+
+            const x = e.clientX;
+            const width = window.innerWidth;
+
+            if (x < width / 2) {
+                prevStory();
+            } else {
+                nextStory();
+            }
+        });
+
+        // =========================
+        // SWIPE ANIMATION
+        // =========================
+        function animateSwipe(dir) {
+
+            const img = document.getElementById("storyImage");
+
+            img.style.transition = "transform 0.15s ease";
+
+            img.style.transform =
+                `translateX(${dir === "next" ? "-40px" : "40px"})`;
+
+            setTimeout(() => {
+                img.style.transform = "translateX(0)";
+            }, 150);
         }
 
         // // XÓA CÁI NÀY
