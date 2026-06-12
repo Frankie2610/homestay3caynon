@@ -6443,6 +6443,33 @@
                     translateY(-6px);
             }
         }
+
+
+        #storyAudio {
+            display: none;
+        }
+
+        /* mobile tối ưu */
+        @media (max-width: 768px) {
+            .story-modal {
+                padding: 10px;
+            }
+
+            .story-viewer {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+
+            .story-image {
+                max-height: 60vh;
+                object-fit: cover;
+            }
+
+            .story-content {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 
@@ -8303,41 +8330,29 @@ ${booking ? '●' : ''}
         });
 
         async function loadStories() {
+            const snapshot = await get(ref(db, "websiteStories"));
+            const data = snapshot.val() || {};
 
-            try {
+            stories = Object.values(data);
 
-                const snapshot =
-                    await get(
-                        ref(db, "websiteStories")
-                    );
+            stories.sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return b.createdAt - a.createdAt;
+            });
 
-                const data =
-                    snapshot.val() || {};
-
-                stories =
-                    Object.values(data);
-
-                // pinned lên đầu
-                stories.sort((a, b) => {
-
-                    if (a.pinned && !b.pinned)
-                        return -1;
-
-                    if (!a.pinned && b.pinned)
-                        return 1;
-
-                    return b.createdAt - a.createdAt;
-                });
-
-                renderStories();
-
-            } catch (err) {
-
-                console.error(err);
-            }
-        }
-
-        function renderStories() {
+            // 👇 PRELOAD ẢNH
+            await Promise.all(
+                stories.map(s => {
+                    return new Promise(res => {
+                        const img = new Image();
+                        img.src = optimizeCloudinary(s.image);
+                        img.onload = res;
+                        img.onerror = res;
+                    });
+                })
+            );
+        } function renderStories() {
 
             const bar =
                 document.getElementById(
@@ -8425,54 +8440,49 @@ ${booking ? '●' : ''}
             `;
                 }).join("");
         }
+        
         window.openStory = function (index) {
 
-            const story =
-                stories[index];
-
+            const story = stories[index];
             if (!story) return;
 
-            document.getElementById(
-                "storyModal"
-            ).style.display = "flex";
+            document.getElementById("storyModal").style.display = "flex";
 
-            document.getElementById(
-                "storyImage"
-            ).src = optimizeCloudinary(
-                story.image
-            );
+            // image
+            document.getElementById("storyImage").src =
+                optimizeCloudinary(story.image);
 
-            document.getElementById(
-                "storyAuthor"
-            ).innerHTML = `
-
-        👤 ${story.author || "Admin"}
-
-        ${story.room
-                    ? `• 🏡 ${story.room}`
-                    : ""}
-    `;
-
-            document.getElementById(
-                "storyTime"
-            ).innerText =
-                formatStoryTime(
-                    story.createdAt
-                );
-
-            document.getElementById(
-                "storyContent"
-            ).innerText =
+            // content
+            document.getElementById("storyContent").innerText =
                 story.content || "";
-        }
 
+            // audio
+            const audio = document.getElementById("storyAudio");
+
+            if (story.audio) {
+                audio.src = story.audio;
+                audio.currentTime = 0;
+
+                // autoplay (có fallback)
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        console.log("Browser block autoplay → cần user interaction");
+                    });
+                }
+            } else {
+                audio.pause();
+                audio.removeAttribute("src");
+            }
+        };
         window.closeStory = function () {
 
-            document.getElementById(
-                "storyModal"
-            ).style.display = "none";
-        }
+            document.getElementById("storyModal").style.display = "none";
 
+            const audio = document.getElementById("storyAudio");
+            audio.pause();
+            audio.currentTime = 0;
+        };
         function formatStoryTime(timestamp) {
 
             const now = Date.now();
@@ -8743,22 +8753,23 @@ ${booking ? '●' : ''}
         }
 
         async function initPage() {
-            showLoading(); // bật loading trước
+            showLoading();
 
             try {
-                await Promise.all([
-                    loadStories(),
-                    loadRooms(),
-                    loadWebsiteReviews()
-                ]);
+                await load();
+                await loadStories();
+
+                renderStories(); // 👈 lúc này ảnh đã preload
+                await loadWebsiteReviews();
+
+                await new Promise(requestAnimationFrame);
+
             } catch (err) {
-                console.error("Load error:", err);
+                console.error(err);
             }
 
-            hideLoading(); // tắt loading khi tất cả xong
-        }
-
-        async function loadRooms() {
+            hideLoading();
+        } async function loadRooms() {
             if (!homes) return;
 
             rooms = Object.entries(homes).map(([id, home]) => ({
@@ -8884,7 +8895,7 @@ ${booking ? '●' : ''}
             </button>
 
         </div>
-
+        <audio id="storyAudio" preload="auto"></audio>
     </div>
 </body>
 
