@@ -6494,6 +6494,24 @@
                 right: 8px;
             }
         }
+
+        @media (max-width: 768px) {
+
+            .story-top {
+                margin-top: 48px;
+            }
+
+            #storyAuthor {
+                max-width: calc(100% - 80px);
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+
+            #storyTime {
+                padding-left: 2px;
+            }
+
+        }
     </style>
 </head>
 
@@ -8371,8 +8389,13 @@ ${booking ? '●' : ''}
                     return new Promise(res => {
                         const img = new Image();
                         img.src = optimizeCloudinary(s.image);
-                        img.onload = res;
-                        img.onerror = res;
+
+                        if (img.decode) {
+                            img.decode().then(res).catch(res);
+                        } else {
+                            img.onload = res;
+                            img.onerror = res;
+                        }
                     });
                 })
             );
@@ -8410,6 +8433,7 @@ ${booking ? '●' : ''}
             // =========================
             // RENDER
             // =========================
+            bar.innerHTML = "";
             bar.innerHTML = rooms.map(room => {
 
                 const firstStory = grouped[room]?.[0];
@@ -8684,20 +8708,30 @@ ${booking ? '●' : ''}
             showLoading();
 
             try {
-                await load();
-                await loadStories();
+                // 1. load data song song (tăng tốc)
+                await Promise.all([
+                    load(),
+                    loadStories(),
+                    loadWebsiteBlogs(),
+                    loadWebsiteReviews()
+                ]);
 
-                renderStories(); // 👈 lúc này ảnh đã preload
-                await loadWebsiteReviews();
+                // 2. render UI SAU khi data xong
+                renderStories();
 
+                // 3. chờ browser paint frame
+                await new Promise(requestAnimationFrame);
                 await new Promise(requestAnimationFrame);
 
             } catch (err) {
                 console.error(err);
             }
-
+document.body.offsetHeight;
+            // 4. chỉ hide khi UI đã render xong frame
             hideLoading();
-        } async function loadRooms() {
+        }
+
+        async function loadRooms() {
             if (!homes) return;
 
             rooms = Object.entries(homes).map(([id, home]) => ({
