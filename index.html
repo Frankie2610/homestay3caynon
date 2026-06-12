@@ -6516,6 +6516,31 @@
         .story-image {
             transition: transform 0.25s ease;
         }
+
+        .story-progress {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            gap: 6px;
+            z-index: 999;
+        }
+
+        .story-progress-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .story-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #fff;
+            transition: width linear;
+        }
     </style>
 </head>
 
@@ -7029,6 +7054,14 @@
 
         let currentStoryGroup = [];
         let currentStoryIndex = 0;
+
+        const STORY_DURATION = 10000; // 10s
+        const START_OFFSET = 5000;    // 🔥 bắt đầu từ giữa (5s)
+
+        let storyTimer = null;
+        let startTime = 0;
+        let remainingTime = STORY_DURATION;
+        let paused = false;
 
         async function renderRooms() {
 
@@ -8600,6 +8633,9 @@ ${booking ? '●' : ''}
                 audio.pause();
                 audio.removeAttribute("src");
             }
+            renderProgress();
+            startStoryTimer();
+            preloadNextStory();
         }
         window.nextStory = function () {
 
@@ -8805,6 +8841,98 @@ ${booking ? '●' : ''}
             }, 150);
         }
 
+        function renderProgress() {
+
+            const bar = document.getElementById("storyProgress");
+            if (!bar) return;
+
+            bar.innerHTML = currentStoryGroup.map((_, i) => `
+        <div class="story-progress-bar">
+            <div class="story-progress-fill"
+                 id="sp-${i}">
+            </div>
+        </div>
+    `).join("");
+        }
+
+
+        function startStoryTimer() {
+
+            clearTimeout(storyTimer);
+
+            const progress = document.getElementById(`sp-${currentStoryIndex}`);
+            if (!progress) return;
+
+            // reset progress
+            document.querySelectorAll(".story-progress-fill")
+                .forEach(el => {
+                    el.style.width = "0%";
+                    el.style.transition = "none";
+                });
+
+            // 👉 bắt đầu từ giữa
+            let startFrom = START_OFFSET;
+
+            startTime = Date.now();
+
+            progress.style.transition = `width ${STORY_DURATION - startFrom}ms linear`;
+            progress.style.width = "100%";
+
+            storyTimer = setTimeout(() => {
+                nextStory();
+            }, STORY_DURATION - startFrom);
+        }
+
+        storyViewer.addEventListener("touchstart", () => {
+            pauseStory();
+        });
+
+        storyViewer.addEventListener("touchend", () => {
+            resumeStory();
+        });
+
+        function pauseStory() {
+            paused = true;
+
+            const progress = document.getElementById(`sp-${currentStoryIndex}`);
+            if (!progress) return;
+
+            const computed = window.getComputedStyle(progress);
+            const width = computed.width;
+
+            progress.style.transition = "none";
+            progress.style.width = width;
+
+            clearTimeout(storyTimer);
+        }
+
+        function resumeStory() {
+            if (!paused) return;
+            paused = false;
+
+            const remaining = STORY_DURATION - (Date.now() - startTime);
+
+            const progress = document.getElementById(`sp-${currentStoryIndex}`);
+            if (!progress) return;
+
+            progress.style.transition = `width ${remaining}ms linear`;
+            progress.style.width = "100%";
+
+            storyTimer = setTimeout(() => {
+                nextStory();
+            }, remaining);
+        }
+
+        function preloadNextStory() {
+
+            const next = currentStoryGroup[currentStoryIndex + 1];
+            if (!next) return;
+
+            const img = new Image();
+            img.src = optimizeCloudinary(next.image);
+        }
+
+
         // // XÓA CÁI NÀY
         // // =========================
         // // DISABLE RIGHT CLICK
@@ -8865,7 +8993,7 @@ ${booking ? '●' : ''}
     <div class="story-modal" id="storyModal">
 
         <div class="story-viewer">
-
+            <div id="storyProgress" class="story-progress"></div>
             <!-- BACKGROUND BLUR -->
 
             <div id="storyBackground" class="story-background">
