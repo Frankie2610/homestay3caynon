@@ -221,7 +221,8 @@
         }
 
         .calendar {
-            min-width: 1200px
+            width: 100%;
+            min-width: 0;
         }
 
         .week-card {
@@ -484,8 +485,7 @@
 
         .availability-grid {
             display: grid;
-            grid-template-columns: 80px repeat(14, minmax(80px, 1fr));
-            min-width: 1300px
+            width: 100%;
         }
 
         .sticky-corner {
@@ -6731,13 +6731,39 @@ ${booking ? '●' : ''}
 
             document.querySelector('.hero').style.display = '';
             document.querySelector('.tabs').style.display = '';
+
             document.getElementById('homes').style.display = '';
             document.getElementById('calendarPage').style.display = '';
             document.getElementById('gallery').style.display = '';
 
+            const stats = document.querySelector('.stats-bar');
+            if (stats) stats.style.display = '';
+
+            // rebuild rooms
+            rooms = Object.entries(homes).map(([id, home]) => ({
+                id,
+                name: home.title || home.name || id
+            }));
+
+            // reset current room
+            currentRoom = rooms[0]?.id;
+
             renderRooms();
             renderTabs();
             renderCalendar();
+
+            // mở lại tab homes mặc định
+            document.querySelectorAll('.page')
+                .forEach(x => x.classList.remove('active'));
+
+            document.querySelectorAll('.tab')
+                .forEach(x => x.classList.remove('active'));
+
+            document.getElementById('homes')
+                .classList.add('active');
+
+            document.getElementById('homesTab')
+                .classList.add('active');
         }
         async function load() {
 
