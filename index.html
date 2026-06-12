@@ -6165,6 +6165,75 @@
 
             left: 0;
         }
+
+        /* =========================
+   STORY NAV BUTTON
+========================= */
+
+        .story-nav {
+
+            position: absolute;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            z-index: 30;
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, .16);
+
+            backdrop-filter: blur(10px);
+
+            color: white;
+
+            font-size: 30px;
+
+            font-weight: 300;
+
+            cursor: pointer;
+
+            transition: .22s ease;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, .18);
+        }
+
+        .story-nav:hover {
+
+            transform:
+                translateY(-50%) scale(1.08);
+
+            background:
+                rgba(255, 255, 255, .24);
+        }
+
+        /* LEFT */
+
+        .story-prev-btn {
+
+            left: 14px;
+        }
+
+        /* RIGHT */
+
+        .story-next-btn {
+
+            right: 14px;
+        }
     </style>
 </head>
 
@@ -8071,7 +8140,21 @@ ${booking ? '●' : ''}
             });
 
             const rooms =
-                Object.keys(grouped);
+                Object.keys(grouped)
+                    .sort((a, b) => {
+
+                        const numA =
+                            Number(
+                                a.replace(/\D/g, "")
+                            );
+
+                        const numB =
+                            Number(
+                                b.replace(/\D/g, "")
+                            );
+
+                        return numA - numB;
+                    });
 
             // =========================
             // RENDER
@@ -8317,11 +8400,17 @@ ${booking ? '●' : ''}
 
             </div>
 
-            <div class="story-next" onclick="nextStory()">
-            </div>
+            <button class="story-nav story-prev-btn" onclick="prevStory()">
 
-            <div class="story-prev" onclick="prevStory()">
-            </div>
+                ‹
+
+            </button>
+
+            <button class="story-nav story-next-btn" onclick="nextStory()">
+
+                ›
+
+            </button>
 
         </div>
 
