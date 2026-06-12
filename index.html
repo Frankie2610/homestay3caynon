@@ -5726,7 +5726,7 @@
 
             position: relative;
 
-            margin-top: 28px;
+            margin: 50px 50px 20px 100px;
 
             padding-bottom: 18px;
         }
@@ -6140,6 +6140,30 @@
 
                 font-size: 14px;
             }
+        }
+
+        .story-next,
+        .story-prev {
+
+            position: absolute;
+
+            top: 0;
+
+            width: 50%;
+
+            height: 100%;
+
+            z-index: 15;
+        }
+
+        .story-next {
+
+            right: 0;
+        }
+
+        .story-prev {
+
+            left: 0;
         }
     </style>
 </head>
@@ -6631,6 +6655,9 @@
         const daysPerPage = 7;
         let rooms = [];
         let stories = [];
+
+        let currentStoryGroup = [];
+        let currentStoryIndex = 0;
 
         async function renderRooms() {
 
@@ -8024,44 +8051,63 @@ ${booking ? '●' : ''}
 
             if (!bar) return;
 
-            if (!stories.length) {
+            // =========================
+            // GROUP BY ROOM
+            // =========================
 
-                bar.innerHTML = `
-        
-            <div class="story-empty">
-                Chưa có story 😄
-            </div>
-        `;
+            const grouped = {};
 
-                return;
-            }
+            stories.forEach(story => {
+
+                const room =
+                    story.room || "Homestay";
+
+                if (!grouped[room]) {
+
+                    grouped[room] = [];
+                }
+
+                grouped[room].push(story);
+            });
+
+            const rooms =
+                Object.keys(grouped);
+
+            // =========================
+            // RENDER
+            // =========================
 
             bar.innerHTML =
-                stories.map((story, index) => `
+                rooms.map(room => {
 
-            <div
-                class="story-item"
-                onclick="openStory(${index})">
+                    const firstStory =
+                        grouped[room][0];
 
-                <div class="story-avatar">
+                    return `
 
-                    <img
-                        src="${story.image}"
-                        alt="${story.title}">
-                
+                <div
+                    class="story-item"
+                    onclick="openStoryGroup('${room}')">
+
+                    <div class="story-avatar">
+
+                        <img
+                            src="${firstStory.image}"
+                            alt="${room}">
+
+                    </div>
+
+                    <div class="story-name">
+
+                        ${room}
+
+                    </div>
+
                 </div>
 
-                <div class="story-name">
-
-                    ${story.room || "Homestay"}
-
-                </div>
-
-            </div>
-
-        `).join("");
+            `;
+                }).join("");
         }
-
         window.openStory = function (index) {
 
             const story =
@@ -8129,6 +8175,95 @@ ${booking ? '●' : ''}
 
             return `${days} ngày trước`;
         }
+        window.openStoryGroup = function (room) {
+
+            currentStoryGroup =
+                stories.filter(
+                    s => (s.room || "Homestay") === room
+                );
+
+            currentStoryGroup.sort(
+                (a, b) =>
+                    a.createdAt - b.createdAt
+            );
+
+            currentStoryIndex = 0;
+
+            openCurrentStory();
+        }
+
+        function openCurrentStory() {
+
+            const story =
+                currentStoryGroup[
+                currentStoryIndex
+                ];
+
+            if (!story) return;
+
+            document.getElementById(
+                "storyModal"
+            ).style.display = "flex";
+
+            document.getElementById(
+                "storyImage"
+            ).src = story.image;
+
+            document.getElementById(
+                "storyAuthor"
+            ).innerHTML = `
+
+        👤 ${story.author || "Admin"}
+
+        ${story.room
+                    ? `&nbsp;&nbsp;•&nbsp;&nbsp;🏡 ${story.room}`
+                    : ""}
+    `;
+
+            document.getElementById(
+                "storyTime"
+            ).innerText =
+                formatStoryTime(
+                    story.createdAt
+                );
+
+            document.getElementById(
+                "storyContent"
+            ).innerHTML = `
+
+        ✨ ${story.content || ""}
+
+    `;
+        }
+
+        window.nextStory = function () {
+
+            currentStoryIndex++;
+
+            if (
+                currentStoryIndex >=
+                currentStoryGroup.length
+            ) {
+
+                closeStory();
+
+                return;
+            }
+
+            openCurrentStory();
+        }
+
+        window.prevStory = function () {
+            currentStoryIndex--;
+
+            if (currentStoryIndex < 0) {
+
+                currentStoryIndex = 0;
+
+                return;
+            }
+            openCurrentStory();
+        }
 
         loadStories();
     </script>
@@ -8180,6 +8315,12 @@ ${booking ? '●' : ''}
 
                 </div>
 
+            </div>
+
+            <div class="story-next" onclick="nextStory()">
+            </div>
+
+            <div class="story-prev" onclick="prevStory()">
             </div>
 
         </div>
